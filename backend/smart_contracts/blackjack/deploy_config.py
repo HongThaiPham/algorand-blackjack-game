@@ -4,6 +4,9 @@ import algokit_utils
 from algosdk.v2client.algod import AlgodClient
 from algosdk.v2client.indexer import IndexerClient
 
+from artifacts.blackjack.client import CreateArgs
+from beaker import client, consts, localnet
+
 logger = logging.getLogger(__name__)
 
 
@@ -14,6 +17,12 @@ def deploy(
     app_spec: algokit_utils.ApplicationSpecification,
     deployer: algokit_utils.Account,
 ) -> None:
+
+    accts = localnet.get_accounts()
+
+    bank = accts.pop()
+    fee_holder = accts.pop()
+
     from smart_contracts.artifacts.blackjack.client import (
         BlackjackClient,
     )
@@ -26,6 +35,13 @@ def deploy(
     app_client.deploy(
         on_schema_break=algokit_utils.OnSchemaBreak.AppendApp,
         on_update=algokit_utils.OnUpdate.AppendApp,
+        allow_delete=True,
+        allow_update=True,
+        create_args=CreateArgs(
+            asset=1069,
+            bank=bank.address,
+            fee_holder=fee_holder.address
+        )
     )
 
     name = "world"

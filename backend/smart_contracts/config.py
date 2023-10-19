@@ -31,7 +31,8 @@ def import_contract(folder: Path) -> Application:
 def import_deploy_if_exists(
     folder: Path,
 ) -> (
-    Callable[[AlgodClient, IndexerClient, ApplicationSpecification, Account], None]
+    Callable[[AlgodClient, IndexerClient,
+              ApplicationSpecification, Account], None]
     | None
 ):
     """Imports the deploy function from a folder if it exists."""
@@ -52,13 +53,14 @@ def has_contract_file(directory: Path) -> bool:
 # define contracts to build and/or deploy
 base_dir = Path("smart_contracts")
 contracts = [
-    SmartContract(app=import_contract(folder), deploy=import_deploy_if_exists(folder))
+    SmartContract(app=import_contract(folder),
+                  deploy=import_deploy_if_exists(folder))
     for folder in base_dir.iterdir()
     if folder.is_dir() and has_contract_file(folder)
 ]
 
-## Comment the above and uncomment the below and define contracts manually if you want to build and specify them
-## manually otherwise the above code will always include all contracts under contract.py file for any subdirectory
-## in the smart_contracts directory. Optionally it will also grab the deploy function from deploy_config.py if it exists.
+# Comment the above and uncomment the below and define contracts manually if you want to build and specify them
+# manually otherwise the above code will always include all contracts under contract.py file for any subdirectory
+# in the smart_contracts directory. Optionally it will also grab the deploy function from deploy_config.py if it exists.
 
 # contracts = []

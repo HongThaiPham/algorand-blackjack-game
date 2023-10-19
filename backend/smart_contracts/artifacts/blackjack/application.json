@@ -1,0 +1,149 @@
+{
+    "hints": {
+        "create(asset,account,account)void": {
+            "call_config": {
+                "no_op": "CREATE"
+            }
+        },
+        "opt_in(axfer,uint64)void": {
+            "call_config": {
+                "opt_in": "CALL"
+            }
+        },
+        "hello(string)string": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMSAyCmJ5dGVjYmxvY2sgMHg3Mzc0NjE3NDY1IDB4NjE3MzczNjU3NCAweDYyNjE2ZTZiIDB4NzM3NDYxNmI2NSAweDY2NjU2NTVmNjE2ZDZmNzU2ZTc0IDB4CnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4Y2QzMzZjODUgLy8gImNyZWF0ZShhc3NldCxhY2NvdW50LGFjY291bnQpdm9pZCIKPT0KYm56IG1haW5fbDYKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhlMmVmODNjMiAvLyAib3B0X2luKGF4ZmVyLHVpbnQ2NCl2b2lkIgo9PQpibnogbWFpbl9sNQp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweDAyYmVjZTExIC8vICJoZWxsbyhzdHJpbmcpc3RyaW5nIgo9PQpibnogbWFpbl9sNAplcnIKbWFpbl9sNDoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBoZWxsb2Nhc3Rlcl81CmludGNfMSAvLyAxCnJldHVybgptYWluX2w1Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMSAvLyBPcHRJbgo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBvcHRpbmNhc3Rlcl80CmludGNfMSAvLyAxCnJldHVybgptYWluX2w2Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCj09CiYmCmFzc2VydApjYWxsc3ViIGNyZWF0ZWNhc3Rlcl8zCmludGNfMSAvLyAxCnJldHVybgoKLy8gY3JlYXRlCmNyZWF0ZV8wOgpwcm90byAzIDAKYnl0ZWNfMSAvLyAiYXNzZXQiCmZyYW1lX2RpZyAtMwp0eG5hcyBBc3NldHMKYXBwX2dsb2JhbF9wdXQKYnl0ZWNfMiAvLyAiYmFuayIKZnJhbWVfZGlnIC0yCnR4bmFzIEFjY291bnRzCmFwcF9nbG9iYWxfcHV0CnB1c2hieXRlcyAweDY2NjU2NTVmNjg2ZjZjNjQ2NTcyIC8vICJmZWVfaG9sZGVyIgpmcmFtZV9kaWcgLTEKdHhuYXMgQWNjb3VudHMKYXBwX2dsb2JhbF9wdXQKcHVzaGJ5dGVzIDB4NjM2MTcyNjQ3MyAvLyAiY2FyZHMiCnB1c2hieXRlcyAweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIC8vIDB4MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAKYXBwX2dsb2JhbF9wdXQKcHVzaGJ5dGVzIDB4NjM2MTcyNjQ3MzVmNmM2NTY2NzQgLy8gImNhcmRzX2xlZnQiCnB1c2hpbnQgNTIgLy8gNTIKYXBwX2dsb2JhbF9wdXQKcHVzaGJ5dGVzIDB4NmU2ZjZlNjM2NSAvLyAibm9uY2UiCmludGNfMCAvLyAwCmFwcF9nbG9iYWxfcHV0CmJ5dGVjXzAgLy8gInN0YXRlIgppbnRjXzAgLy8gMAphcHBfZ2xvYmFsX3B1dApyZXRzdWIKCi8vIG9wdF9pbgpvcHRpbl8xOgpwcm90byAyIDAKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CmludGNfMSAvLyAxCj09CmJueiBvcHRpbl8xX2w0CmJ5dGVjXzAgLy8gInN0YXRlIgphcHBfZ2xvYmFsX2dldAppbnRjXzIgLy8gMgo9PQpibnogb3B0aW5fMV9sMwplcnIKb3B0aW5fMV9sMzoKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CmludGNfMiAvLyAyCj09CmFzc2VydAp0eG4gU2VuZGVyCmJ5dGVjXzIgLy8gImJhbmsiCmFwcF9nbG9iYWxfZ2V0Cj09CmFzc2VydApmcmFtZV9kaWcgLTIKZ3R4bnMgWGZlckFzc2V0CmJ5dGVjXzEgLy8gImFzc2V0IgphcHBfZ2xvYmFsX2dldAo9PQphc3NlcnQKZnJhbWVfZGlnIC0yCmd0eG5zIEFzc2V0UmVjZWl2ZXIKZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMgpndHhucyBBc3NldEFtb3VudApieXRlY18zIC8vICJzdGFrZSIKYXBwX2dsb2JhbF9nZXQKPT0KYXNzZXJ0CmJ5dGVjIDQgLy8gImZlZV9hbW91bnQiCmZyYW1lX2RpZyAtMQphcHBfZ2xvYmFsX3B1dApieXRlY18wIC8vICJzdGF0ZSIKcHVzaGludCAzIC8vIDMKYXBwX2dsb2JhbF9wdXQKcHVzaGJ5dGVzIDB4NjE2Mzc0Njk2ZjZlNWY3NDY5NmQ2NTcyIC8vICJhY3Rpb25fdGltZXIiCmdsb2JhbCBSb3VuZAphcHBfZ2xvYmFsX3B1dApiIG9wdGluXzFfbDUKb3B0aW5fMV9sNDoKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CmludGNfMSAvLyAxCj09CmFzc2VydAp0eG4gU2VuZGVyCmdsb2JhbCBDcmVhdG9yQWRkcmVzcwo9PQphc3NlcnQKZnJhbWVfZGlnIC0yCmd0eG5zIFhmZXJBc3NldApieXRlY18xIC8vICJhc3NldCIKYXBwX2dsb2JhbF9nZXQKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMgpndHhucyBBc3NldFJlY2VpdmVyCmdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCj09CmFzc2VydApieXRlY18zIC8vICJzdGFrZSIKZnJhbWVfZGlnIC0yCmd0eG5zIEFzc2V0QW1vdW50CmFwcF9nbG9iYWxfcHV0CmJ5dGVjIDQgLy8gImZlZV9hbW91bnQiCmZyYW1lX2RpZyAtMQphcHBfZ2xvYmFsX3B1dApieXRlY18wIC8vICJzdGF0ZSIKaW50Y18yIC8vIDIKYXBwX2dsb2JhbF9wdXQKb3B0aW5fMV9sNToKcmV0c3ViCgovLyBoZWxsbwpoZWxsb18yOgpwcm90byAxIDEKYnl0ZWMgNSAvLyAiIgpwdXNoYnl0ZXMgMHg0ODY1NmM2YzZmMmMyMCAvLyAiSGVsbG8sICIKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmNvbmNhdApmcmFtZV9idXJ5IDAKZnJhbWVfZGlnIDAKbGVuCml0b2IKZXh0cmFjdCA2IDAKZnJhbWVfZGlnIDAKY29uY2F0CmZyYW1lX2J1cnkgMApyZXRzdWIKCi8vIGNyZWF0ZV9jYXN0ZXIKY3JlYXRlY2FzdGVyXzM6CnByb3RvIDAgMAppbnRjXzAgLy8gMApkdXBuIDIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQppbnRjXzAgLy8gMApnZXRieXRlCmZyYW1lX2J1cnkgMAp0eG5hIEFwcGxpY2F0aW9uQXJncyAyCmludGNfMCAvLyAwCmdldGJ5dGUKZnJhbWVfYnVyeSAxCnR4bmEgQXBwbGljYXRpb25BcmdzIDMKaW50Y18wIC8vIDAKZ2V0Ynl0ZQpmcmFtZV9idXJ5IDIKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDIKY2FsbHN1YiBjcmVhdGVfMApyZXRzdWIKCi8vIG9wdF9pbl9jYXN0ZXIKb3B0aW5jYXN0ZXJfNDoKcHJvdG8gMCAwCmludGNfMCAvLyAwCmR1cAp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmJ0b2kKZnJhbWVfYnVyeSAxCnR4biBHcm91cEluZGV4CmludGNfMSAvLyAxCi0KZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAwCmd0eG5zIFR5cGVFbnVtCnB1c2hpbnQgNCAvLyBheGZlcgo9PQphc3NlcnQKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKY2FsbHN1YiBvcHRpbl8xCnJldHN1YgoKLy8gaGVsbG9fY2FzdGVyCmhlbGxvY2FzdGVyXzU6CnByb3RvIDAgMApieXRlYyA1IC8vICIiCmR1cAp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMQpjYWxsc3ViIGhlbGxvXzIKZnJhbWVfYnVyeSAwCnB1c2hieXRlcyAweDE1MWY3Yzc1IC8vIDB4MTUxZjdjNzUKZnJhbWVfZGlnIDAKY29uY2F0CmxvZwpyZXRzdWI=",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKcHVzaGludCAwIC8vIDAKcmV0dXJu"
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 3,
+            "num_uints": 7
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {
+                "action_timer": {
+                    "type": "uint64",
+                    "key": "action_timer",
+                    "descr": ""
+                },
+                "asset": {
+                    "type": "uint64",
+                    "key": "asset",
+                    "descr": ""
+                },
+                "bank": {
+                    "type": "bytes",
+                    "key": "bank",
+                    "descr": ""
+                },
+                "cards": {
+                    "type": "bytes",
+                    "key": "cards",
+                    "descr": ""
+                },
+                "cards_left": {
+                    "type": "uint64",
+                    "key": "cards_left",
+                    "descr": ""
+                },
+                "fee_amount": {
+                    "type": "uint64",
+                    "key": "fee_amount",
+                    "descr": ""
+                },
+                "fee_holder": {
+                    "type": "bytes",
+                    "key": "fee_holder",
+                    "descr": ""
+                },
+                "nonce": {
+                    "type": "uint64",
+                    "key": "nonce",
+                    "descr": ""
+                },
+                "stake": {
+                    "type": "uint64",
+                    "key": "stake",
+                    "descr": ""
+                },
+                "state": {
+                    "type": "uint64",
+                    "key": "state",
+                    "descr": ""
+                }
+            },
+            "reserved": {}
+        },
+        "local": {
+            "declared": {},
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "blackjack",
+        "methods": [
+            {
+                "name": "create",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "asset"
+                    },
+                    {
+                        "type": "account",
+                        "name": "bank"
+                    },
+                    {
+                        "type": "account",
+                        "name": "fee_holder"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            },
+            {
+                "name": "opt_in",
+                "args": [
+                    {
+                        "type": "axfer",
+                        "name": "txn"
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "fee_amount"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            },
+            {
+                "name": "hello",
+                "args": [
+                    {
+                        "type": "string",
+                        "name": "name"
+                    }
+                ],
+                "returns": {
+                    "type": "string"
+                }
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {}
+}

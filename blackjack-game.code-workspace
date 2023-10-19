@@ -17,7 +17,11 @@
       "frontend/": true
     },
     "jest.disabledWorkspaceFolders": ["ROOT", "backend"],
-    "dotenv.enableAutocloaking": false
+    "dotenv.enableAutocloaking": false,
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "python.formatting.provider": "none"
   },
   "extensions": {
     "recommendations": ["joshx.workspace-terminals"]
