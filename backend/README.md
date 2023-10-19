@@ -55,3 +55,5 @@ This project makes use of Python to build Algorand smart contracts. The followin
 - [pip-audit](https://pypi.org/project/pip-audit/): Tool for scanning Python environments for packages with known vulnerabilities.
 It has also been configured to have a productive dev experience out of the box in [VS Code](https://code.visualstudio.com/), see the [.vscode](./.vscode) folder.
 
+https://developer.algorand.org/solutions/an-algorand-blackjack-implementation-with-beaker/
+https://github.com/Geladen/algorand-games-platform/blob/main/src/algogames/blackjack/blackjack.py
