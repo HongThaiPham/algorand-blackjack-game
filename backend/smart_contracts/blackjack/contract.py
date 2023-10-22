@@ -1,5 +1,6 @@
 import beaker
 import pyteal as pt
+from pytealext import Max, Min
 
 action_timeout = 10
 
@@ -81,6 +82,15 @@ class AppState:
         stack_type=pt.TealType.uint64,
     )
     last_card = beaker.GlobalStateValue(
+        stack_type=pt.TealType.uint64,
+    )
+    player_cards = beaker.GlobalStateValue(
+        stack_type=pt.TealType.uint64,
+    )
+    player_min_total = beaker.GlobalStateValue(
+        stack_type=pt.TealType.uint64,
+    )
+    player_max_total = beaker.GlobalStateValue(
         stack_type=pt.TealType.uint64,
     )
 
@@ -202,6 +212,59 @@ def pop_card(pos, pop_id):
         appState.cards_left.set(appState.cards_left.get() - pt.Int(1)),
         appState.last_card.set(i.load()),
         i.load()
+    )
+
+
+@beaker.pyteal.Subroutine(pt.TealType.uint64)
+def card_value(id):
+    """
+    Get a card value from its ID
+    id: ID of the card of which the value will be returned
+    """
+    return pt.Seq(
+        Min(id % pt.Int(13) + pt.Int(1), pt.Int(10))
+    )
+
+
+@beaker.pyteal.Subroutine(pt.TealType.uint64)
+def sig_to_card_pos(sig: pt.abi.DynamicBytes):
+    """
+    Get the card position corresponding to a signature
+    sig: signature by the bank of a request
+    """
+    return pt.Seq(
+        pt.Btoi(pt.BytesMod(
+            sig.get(), pt.Extract(pt.Itob(appState.cards_left.get()), pt.Int(7), pt.Int(1))
+        ))
+    )
+
+
+@beaker.pyteal.Subroutine(pt.TealType.none)
+def give_card_to_player(pos):
+    """
+    Give a card to the player
+    pos: index of the card to be popped in the remaining card array
+    """
+    card = pt.ScratchVar(pt.TealType.uint64)
+    mint_value = pt.ScratchVar(pt.TealType.uint64)
+    max_value = pt.ScratchVar(pt.TealType.uint64)
+    return pt.Seq(
+        card.store(pop_card(pos, pt.Int(1))),
+        appState.player_cards.set(appState.player_cards.get() + pt.Int(1)),
+        mint_value.store(card_value(card.load())),
+        max_value.store(
+            pt.If(
+                mint_value.load() == pt.Int(1)
+            ).Then(
+                pt.Int(11)
+            ).Else(
+                mint_value.load()
+            )
+        ),
+        appState.player_min_total.set(
+            appState.player_min_total.get() + mint_value.load()),
+        appState.player_max_total.set(
+            appState.player_max_total.get() + max_value.load()),
     )
 
 
