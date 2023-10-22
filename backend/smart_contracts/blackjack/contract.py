@@ -80,6 +80,9 @@ class AppState:
     action_timer = beaker.GlobalStateValue(
         stack_type=pt.TealType.uint64,
     )
+    last_card = beaker.GlobalStateValue(
+        stack_type=pt.TealType.uint64,
+    )
 
 
 appState = AppState()
@@ -136,6 +139,69 @@ def join_server(txn: pt.abi.AssetTransferTransaction, fee_amount: pt.abi.Uint64)
         appState.fee_amount.set(fee_amount.get()),
         appState.state.set(DISTRIBUTE),
         appState.action_timer.set(pt.Global.round()),
+    )
+
+
+# To initialize the application account the creator of the smart contract has pay the fees of the contract and the minimum balance.
+
+
+@app.external
+def init(txn: pt.abi.PaymentTransaction, asset: pt.abi.Asset):
+    return pt.Seq(
+        pt.Assert(
+            appState.state.get() == INIT,
+            pt.Txn.sender() == pt.Global.creator_address(),
+            txn.get().amount() == pt.Int(1000000),
+            asset.asset_id() == appState.asset.get(),
+        ),
+        pt.InnerTxnBuilder.Begin(),
+        pt.InnerTxnBuilder.SetFields(
+            {
+                pt.TxnField.type_enum: pt.TxnType.AssetTransfer,
+                pt.TxnField.asset_receiver: pt.Global.current_application_address(),
+                pt.TxnField.xfer_asset: appState.asset.get(),
+                pt.TxnField.asset_amount: pt.Int(0),
+            },
+        ),
+        pt.InnerTxnBuilder.Submit(),
+        appState.state.set(POOR),
+    )
+
+
+# In order for the player or the bank to receive a card, it must be removed from the deck. To do this you need to provide the id of the card and which player it was drawn by.
+@beaker.pyteal.Subroutine(pt.TealType.uint64)
+def pop_card(pos, pop_id):
+    """
+    Remove a card from the deck and returns its ID
+    pos: index of the card to be popped in the remaining card array
+    pop_id: id that encodes why the card has been popped (0 unpopped, 1 player, 2 bank)
+    """
+    i = pt.ScratchVar(pt.TealType.uint64)
+    j = pt.ScratchVar(pt.TealType.uint64)
+    return pt.Seq(
+        pt.For(
+            pt.Seq(
+                i.store(pt.Int(0)),
+                j.store(pt.Int(0)),
+            ),
+            j.load() <= pos,
+            i.store(i.load() + pt.Int(1)),
+        ).Do(
+            pt.Seq(
+                pt.If(
+                    pt.GetByte(appState.cards.get(), i.load()) == pt.Int(0)
+                ).Then(
+                    j.store(j.load() + pt.Int(1)),
+                ),
+            ),
+
+        ),
+        i.store(i.load() - pt.Int(1)),
+        appState.cards.set(pt.SetByte(
+            appState.cards.get(), i.load(), pop_id)),
+        appState.cards_left.set(appState.cards_left.get() - pt.Int(1)),
+        appState.last_card.set(i.load()),
+        i.load()
     )
 
 
