@@ -31,6 +31,51 @@ _APP_SPEC_JSON = r"""{
                 "opt_in": "CALL"
             }
         },
+        "init(pay,asset)void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "distribute_req(byte[])void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "distribute_act(byte[])void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "hit_req(byte[])void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "hit_act(byte[])void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "stand_req(byte[])void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "stand_act(byte[])void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "forfeit()void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "delete(asset,account,account)void": {
+            "call_config": {
+                "delete_application": "CALL"
+            }
+        },
         "hello(string)string": {
             "call_config": {
                 "no_op": "CALL"
@@ -38,13 +83,13 @@ _APP_SPEC_JSON = r"""{
         }
     },
     "source": {
-        "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMSAyCmJ5dGVjYmxvY2sgMHg3Mzc0NjE3NDY1IDB4NjE3MzczNjU3NCAweDYyNjE2ZTZiIDB4NzM3NDYxNmI2NSAweDY2NjU2NTVmNjE2ZDZmNzU2ZTc0IDB4CnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4Y2QzMzZjODUgLy8gImNyZWF0ZShhc3NldCxhY2NvdW50LGFjY291bnQpdm9pZCIKPT0KYm56IG1haW5fbDYKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhlMmVmODNjMiAvLyAib3B0X2luKGF4ZmVyLHVpbnQ2NCl2b2lkIgo9PQpibnogbWFpbl9sNQp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweDAyYmVjZTExIC8vICJoZWxsbyhzdHJpbmcpc3RyaW5nIgo9PQpibnogbWFpbl9sNAplcnIKbWFpbl9sNDoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBoZWxsb2Nhc3Rlcl81CmludGNfMSAvLyAxCnJldHVybgptYWluX2w1Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMSAvLyBPcHRJbgo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBvcHRpbmNhc3Rlcl80CmludGNfMSAvLyAxCnJldHVybgptYWluX2w2Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCj09CiYmCmFzc2VydApjYWxsc3ViIGNyZWF0ZWNhc3Rlcl8zCmludGNfMSAvLyAxCnJldHVybgoKLy8gY3JlYXRlCmNyZWF0ZV8wOgpwcm90byAzIDAKYnl0ZWNfMSAvLyAiYXNzZXQiCmZyYW1lX2RpZyAtMwp0eG5hcyBBc3NldHMKYXBwX2dsb2JhbF9wdXQKYnl0ZWNfMiAvLyAiYmFuayIKZnJhbWVfZGlnIC0yCnR4bmFzIEFjY291bnRzCmFwcF9nbG9iYWxfcHV0CnB1c2hieXRlcyAweDY2NjU2NTVmNjg2ZjZjNjQ2NTcyIC8vICJmZWVfaG9sZGVyIgpmcmFtZV9kaWcgLTEKdHhuYXMgQWNjb3VudHMKYXBwX2dsb2JhbF9wdXQKcHVzaGJ5dGVzIDB4NjM2MTcyNjQ3MyAvLyAiY2FyZHMiCnB1c2hieXRlcyAweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIC8vIDB4MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAKYXBwX2dsb2JhbF9wdXQKcHVzaGJ5dGVzIDB4NjM2MTcyNjQ3MzVmNmM2NTY2NzQgLy8gImNhcmRzX2xlZnQiCnB1c2hpbnQgNTIgLy8gNTIKYXBwX2dsb2JhbF9wdXQKcHVzaGJ5dGVzIDB4NmU2ZjZlNjM2NSAvLyAibm9uY2UiCmludGNfMCAvLyAwCmFwcF9nbG9iYWxfcHV0CmJ5dGVjXzAgLy8gInN0YXRlIgppbnRjXzAgLy8gMAphcHBfZ2xvYmFsX3B1dApyZXRzdWIKCi8vIG9wdF9pbgpvcHRpbl8xOgpwcm90byAyIDAKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CmludGNfMSAvLyAxCj09CmJueiBvcHRpbl8xX2w0CmJ5dGVjXzAgLy8gInN0YXRlIgphcHBfZ2xvYmFsX2dldAppbnRjXzIgLy8gMgo9PQpibnogb3B0aW5fMV9sMwplcnIKb3B0aW5fMV9sMzoKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CmludGNfMiAvLyAyCj09CmFzc2VydAp0eG4gU2VuZGVyCmJ5dGVjXzIgLy8gImJhbmsiCmFwcF9nbG9iYWxfZ2V0Cj09CmFzc2VydApmcmFtZV9kaWcgLTIKZ3R4bnMgWGZlckFzc2V0CmJ5dGVjXzEgLy8gImFzc2V0IgphcHBfZ2xvYmFsX2dldAo9PQphc3NlcnQKZnJhbWVfZGlnIC0yCmd0eG5zIEFzc2V0UmVjZWl2ZXIKZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMgpndHhucyBBc3NldEFtb3VudApieXRlY18zIC8vICJzdGFrZSIKYXBwX2dsb2JhbF9nZXQKPT0KYXNzZXJ0CmJ5dGVjIDQgLy8gImZlZV9hbW91bnQiCmZyYW1lX2RpZyAtMQphcHBfZ2xvYmFsX3B1dApieXRlY18wIC8vICJzdGF0ZSIKcHVzaGludCAzIC8vIDMKYXBwX2dsb2JhbF9wdXQKcHVzaGJ5dGVzIDB4NjE2Mzc0Njk2ZjZlNWY3NDY5NmQ2NTcyIC8vICJhY3Rpb25fdGltZXIiCmdsb2JhbCBSb3VuZAphcHBfZ2xvYmFsX3B1dApiIG9wdGluXzFfbDUKb3B0aW5fMV9sNDoKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CmludGNfMSAvLyAxCj09CmFzc2VydAp0eG4gU2VuZGVyCmdsb2JhbCBDcmVhdG9yQWRkcmVzcwo9PQphc3NlcnQKZnJhbWVfZGlnIC0yCmd0eG5zIFhmZXJBc3NldApieXRlY18xIC8vICJhc3NldCIKYXBwX2dsb2JhbF9nZXQKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMgpndHhucyBBc3NldFJlY2VpdmVyCmdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCj09CmFzc2VydApieXRlY18zIC8vICJzdGFrZSIKZnJhbWVfZGlnIC0yCmd0eG5zIEFzc2V0QW1vdW50CmFwcF9nbG9iYWxfcHV0CmJ5dGVjIDQgLy8gImZlZV9hbW91bnQiCmZyYW1lX2RpZyAtMQphcHBfZ2xvYmFsX3B1dApieXRlY18wIC8vICJzdGF0ZSIKaW50Y18yIC8vIDIKYXBwX2dsb2JhbF9wdXQKb3B0aW5fMV9sNToKcmV0c3ViCgovLyBoZWxsbwpoZWxsb18yOgpwcm90byAxIDEKYnl0ZWMgNSAvLyAiIgpwdXNoYnl0ZXMgMHg0ODY1NmM2YzZmMmMyMCAvLyAiSGVsbG8sICIKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmNvbmNhdApmcmFtZV9idXJ5IDAKZnJhbWVfZGlnIDAKbGVuCml0b2IKZXh0cmFjdCA2IDAKZnJhbWVfZGlnIDAKY29uY2F0CmZyYW1lX2J1cnkgMApyZXRzdWIKCi8vIGNyZWF0ZV9jYXN0ZXIKY3JlYXRlY2FzdGVyXzM6CnByb3RvIDAgMAppbnRjXzAgLy8gMApkdXBuIDIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQppbnRjXzAgLy8gMApnZXRieXRlCmZyYW1lX2J1cnkgMAp0eG5hIEFwcGxpY2F0aW9uQXJncyAyCmludGNfMCAvLyAwCmdldGJ5dGUKZnJhbWVfYnVyeSAxCnR4bmEgQXBwbGljYXRpb25BcmdzIDMKaW50Y18wIC8vIDAKZ2V0Ynl0ZQpmcmFtZV9idXJ5IDIKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDIKY2FsbHN1YiBjcmVhdGVfMApyZXRzdWIKCi8vIG9wdF9pbl9jYXN0ZXIKb3B0aW5jYXN0ZXJfNDoKcHJvdG8gMCAwCmludGNfMCAvLyAwCmR1cAp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmJ0b2kKZnJhbWVfYnVyeSAxCnR4biBHcm91cEluZGV4CmludGNfMSAvLyAxCi0KZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAwCmd0eG5zIFR5cGVFbnVtCnB1c2hpbnQgNCAvLyBheGZlcgo9PQphc3NlcnQKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKY2FsbHN1YiBvcHRpbl8xCnJldHN1YgoKLy8gaGVsbG9fY2FzdGVyCmhlbGxvY2FzdGVyXzU6CnByb3RvIDAgMApieXRlYyA1IC8vICIiCmR1cAp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMQpjYWxsc3ViIGhlbGxvXzIKZnJhbWVfYnVyeSAwCnB1c2hieXRlcyAweDE1MWY3Yzc1IC8vIDB4MTUxZjdjNzUKZnJhbWVfZGlnIDAKY29uY2F0CmxvZwpyZXRzdWI=",
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDgKaW50Y2Jsb2NrIDAgMSAyIDUgNTAwMApieXRlY2Jsb2NrIDB4NzM3NDYxNzQ2NSAweDcwNmM2MTc5NjU3MjVmNmQ2MTc4NWY3NDZmNzQ2MTZjIDB4NmU2ZjZlNjM2NSAweDYyNjE2ZTZiIDB4NjI2MTZlNmI1ZjZkNjE3ODVmNzQ2Zjc0NjE2YyAweDYxNzM3MzY1NzQgMHg2MTYzNzQ2OTZmNmU1Zjc0Njk2ZDY1NzIgMHggMHg3NzY5NmU2ZTY1NzIgMHg2MjYxNmU2YjVmNjM2MTcyNjQ3MyAweDcyNjU3MTc1NjU3Mzc0IDB4MDY4MTAxIDB4NzA2YzYxNzk2NTcyNWY2MzYxNzI2NDczIDB4NjM2MTcyNjQ3MyAweDYzNjE3MjY0NzM1ZjZjNjU2Njc0IDB4NzM3NDYxNmI2NSAweDcwNmM2MTc5NjU3MjVmNmQ2OTZlNWY3NDZmNzQ2MTZjIDB4NjI2MTZlNmI1ZjZkNjk2ZTVmNzQ2Zjc0NjE2YyAweDY2NjU2NTVmNjg2ZjZjNjQ2NTcyIDB4NjY2NTY1NWY2MTZkNmY3NTZlNzQgMHg2MTcwNzAKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhjZDMzNmM4NSAvLyAiY3JlYXRlKGFzc2V0LGFjY291bnQsYWNjb3VudCl2b2lkIgo9PQpibnogbWFpbl9sMjQKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhlMmVmODNjMiAvLyAib3B0X2luKGF4ZmVyLHVpbnQ2NCl2b2lkIgo9PQpibnogbWFpbl9sMjMKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhiNjhmNzYxNiAvLyAiaW5pdChwYXksYXNzZXQpdm9pZCIKPT0KYm56IG1haW5fbDIyCnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4N2JlMTlhZjAgLy8gImRpc3RyaWJ1dGVfcmVxKGJ5dGVbXSl2b2lkIgo9PQpibnogbWFpbl9sMjEKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHg1MWNiMGFiYiAvLyAiZGlzdHJpYnV0ZV9hY3QoYnl0ZVtdKXZvaWQiCj09CmJueiBtYWluX2wyMAp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweDdjNzk2NWY3IC8vICJoaXRfcmVxKGJ5dGVbXSl2b2lkIgo9PQpibnogbWFpbl9sMTkKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMApwdXNoYnl0ZXMgMHhiM2IyZmJiMiAvLyAiaGl0X2FjdChieXRlW10pdm9pZCIKPT0KYm56IG1haW5fbDE4CnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4NzEzMzhlNDUgLy8gInN0YW5kX3JlcShieXRlW10pdm9pZCIKPT0KYm56IG1haW5fbDE3CnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4ZGQxMWNkOTkgLy8gInN0YW5kX2FjdChieXRlW10pdm9pZCIKPT0KYm56IG1haW5fbDE2CnR4bmEgQXBwbGljYXRpb25BcmdzIDAKcHVzaGJ5dGVzIDB4NWNhYWVhMjkgLy8gImZvcmZlaXQoKXZvaWQiCj09CmJueiBtYWluX2wxNQp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweDM3N2I5OGNlIC8vICJkZWxldGUoYXNzZXQsYWNjb3VudCxhY2NvdW50KXZvaWQiCj09CmJueiBtYWluX2wxNAp0eG5hIEFwcGxpY2F0aW9uQXJncyAwCnB1c2hieXRlcyAweDAyYmVjZTExIC8vICJoZWxsbyhzdHJpbmcpc3RyaW5nIgo9PQpibnogbWFpbl9sMTMKZXJyCm1haW5fbDEzOgp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCiE9CiYmCmFzc2VydApjYWxsc3ViIGhlbGxvY2FzdGVyXzMzCmludGNfMSAvLyAxCnJldHVybgptYWluX2wxNDoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzMgLy8gRGVsZXRlQXBwbGljYXRpb24KPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgZGVsZXRlY2FzdGVyXzMyCmludGNfMSAvLyAxCnJldHVybgptYWluX2wxNToKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBmb3JmZWl0Y2FzdGVyXzMxCmludGNfMSAvLyAxCnJldHVybgptYWluX2wxNjoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBzdGFuZGFjdGNhc3Rlcl8zMAppbnRjXzEgLy8gMQpyZXR1cm4KbWFpbl9sMTc6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgc3RhbmRyZXFjYXN0ZXJfMjkKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDE4Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCiE9CiYmCmFzc2VydApjYWxsc3ViIGhpdGFjdGNhc3Rlcl8yOAppbnRjXzEgLy8gMQpyZXR1cm4KbWFpbl9sMTk6CnR4biBPbkNvbXBsZXRpb24KaW50Y18wIC8vIE5vT3AKPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgaGl0cmVxY2FzdGVyXzI3CmludGNfMSAvLyAxCnJldHVybgptYWluX2wyMDoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBkaXN0cmlidXRlYWN0Y2FzdGVyXzI2CmludGNfMSAvLyAxCnJldHVybgptYWluX2wyMToKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBkaXN0cmlidXRlcmVxY2FzdGVyXzI1CmludGNfMSAvLyAxCnJldHVybgptYWluX2wyMjoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzAgLy8gTm9PcAo9PQp0eG4gQXBwbGljYXRpb25JRAppbnRjXzAgLy8gMAohPQomJgphc3NlcnQKY2FsbHN1YiBpbml0Y2FzdGVyXzI0CmludGNfMSAvLyAxCnJldHVybgptYWluX2wyMzoKdHhuIE9uQ29tcGxldGlvbgppbnRjXzEgLy8gT3B0SW4KPT0KdHhuIEFwcGxpY2F0aW9uSUQKaW50Y18wIC8vIDAKIT0KJiYKYXNzZXJ0CmNhbGxzdWIgb3B0aW5jYXN0ZXJfMjMKaW50Y18xIC8vIDEKcmV0dXJuCm1haW5fbDI0Ogp0eG4gT25Db21wbGV0aW9uCmludGNfMCAvLyBOb09wCj09CnR4biBBcHBsaWNhdGlvbklECmludGNfMCAvLyAwCj09CiYmCmFzc2VydApjYWxsc3ViIGNyZWF0ZWNhc3Rlcl8yMgppbnRjXzEgLy8gMQpyZXR1cm4KCi8vIGNyZWF0ZQpjcmVhdGVfMDoKcHJvdG8gMyAwCmJ5dGVjIDUgLy8gImFzc2V0IgpmcmFtZV9kaWcgLTMKdHhuYXMgQXNzZXRzCmFwcF9nbG9iYWxfcHV0CmJ5dGVjXzMgLy8gImJhbmsiCmZyYW1lX2RpZyAtMgp0eG5hcyBBY2NvdW50cwphcHBfZ2xvYmFsX3B1dApieXRlYyAxOCAvLyAiZmVlX2hvbGRlciIKZnJhbWVfZGlnIC0xCnR4bmFzIEFjY291bnRzCmFwcF9nbG9iYWxfcHV0CmJ5dGVjIDEzIC8vICJjYXJkcyIKcHVzaGJ5dGVzIDB4MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAgLy8gMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMAphcHBfZ2xvYmFsX3B1dApieXRlYyAxNCAvLyAiY2FyZHNfbGVmdCIKcHVzaGludCA1MiAvLyA1MgphcHBfZ2xvYmFsX3B1dApieXRlY18yIC8vICJub25jZSIKaW50Y18wIC8vIDAKYXBwX2dsb2JhbF9wdXQKYnl0ZWNfMCAvLyAic3RhdGUiCmludGNfMCAvLyAwCmFwcF9nbG9iYWxfcHV0CnJldHN1YgoKLy8gb3B0X2luCm9wdGluXzE6CnByb3RvIDIgMApieXRlY18wIC8vICJzdGF0ZSIKYXBwX2dsb2JhbF9nZXQKaW50Y18xIC8vIDEKPT0KYm56IG9wdGluXzFfbDQKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CmludGNfMiAvLyAyCj09CmJueiBvcHRpbl8xX2wzCmVycgpvcHRpbl8xX2wzOgpieXRlY18wIC8vICJzdGF0ZSIKYXBwX2dsb2JhbF9nZXQKaW50Y18yIC8vIDIKPT0KYXNzZXJ0CnR4biBTZW5kZXIKYnl0ZWNfMyAvLyAiYmFuayIKYXBwX2dsb2JhbF9nZXQKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMgpndHhucyBYZmVyQXNzZXQKYnl0ZWMgNSAvLyAiYXNzZXQiCmFwcF9nbG9iYWxfZ2V0Cj09CmFzc2VydApmcmFtZV9kaWcgLTIKZ3R4bnMgQXNzZXRSZWNlaXZlcgpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwo9PQphc3NlcnQKZnJhbWVfZGlnIC0yCmd0eG5zIEFzc2V0QW1vdW50CmJ5dGVjIDE1IC8vICJzdGFrZSIKYXBwX2dsb2JhbF9nZXQKPT0KYXNzZXJ0CmJ5dGVjIDE5IC8vICJmZWVfYW1vdW50IgpmcmFtZV9kaWcgLTEKYXBwX2dsb2JhbF9wdXQKYnl0ZWNfMCAvLyAic3RhdGUiCnB1c2hpbnQgMyAvLyAzCmFwcF9nbG9iYWxfcHV0CmJ5dGVjIDYgLy8gImFjdGlvbl90aW1lciIKZ2xvYmFsIFJvdW5kCmFwcF9nbG9iYWxfcHV0CmIgb3B0aW5fMV9sNQpvcHRpbl8xX2w0OgpieXRlY18wIC8vICJzdGF0ZSIKYXBwX2dsb2JhbF9nZXQKaW50Y18xIC8vIDEKPT0KYXNzZXJ0CnR4biBTZW5kZXIKZ2xvYmFsIENyZWF0b3JBZGRyZXNzCj09CmFzc2VydApmcmFtZV9kaWcgLTIKZ3R4bnMgWGZlckFzc2V0CmJ5dGVjIDUgLy8gImFzc2V0IgphcHBfZ2xvYmFsX2dldAo9PQphc3NlcnQKZnJhbWVfZGlnIC0yCmd0eG5zIEFzc2V0UmVjZWl2ZXIKZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKPT0KYXNzZXJ0CmJ5dGVjIDE1IC8vICJzdGFrZSIKZnJhbWVfZGlnIC0yCmd0eG5zIEFzc2V0QW1vdW50CmFwcF9nbG9iYWxfcHV0CmJ5dGVjIDE5IC8vICJmZWVfYW1vdW50IgpmcmFtZV9kaWcgLTEKYXBwX2dsb2JhbF9wdXQKYnl0ZWNfMCAvLyAic3RhdGUiCmludGNfMiAvLyAyCmFwcF9nbG9iYWxfcHV0Cm9wdGluXzFfbDU6CnJldHN1YgoKLy8gaW5pdAppbml0XzI6CnByb3RvIDIgMApieXRlY18wIC8vICJzdGF0ZSIKYXBwX2dsb2JhbF9nZXQKaW50Y18wIC8vIDAKPT0KYXNzZXJ0CnR4biBTZW5kZXIKZ2xvYmFsIENyZWF0b3JBZGRyZXNzCj09CmFzc2VydApmcmFtZV9kaWcgLTIKZ3R4bnMgQW1vdW50CnB1c2hpbnQgMTAwMDAwMCAvLyAxMDAwMDAwCj09CmFzc2VydApmcmFtZV9kaWcgLTEKdHhuYXMgQXNzZXRzCmJ5dGVjIDUgLy8gImFzc2V0IgphcHBfZ2xvYmFsX2dldAo9PQphc3NlcnQKaXR4bl9iZWdpbgpwdXNoaW50IDQgLy8gYXhmZXIKaXR4bl9maWVsZCBUeXBlRW51bQpnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwppdHhuX2ZpZWxkIEFzc2V0UmVjZWl2ZXIKYnl0ZWMgNSAvLyAiYXNzZXQiCmFwcF9nbG9iYWxfZ2V0Cml0eG5fZmllbGQgWGZlckFzc2V0CmludGNfMCAvLyAwCml0eG5fZmllbGQgQXNzZXRBbW91bnQKaXR4bl9zdWJtaXQKYnl0ZWNfMCAvLyAic3RhdGUiCmludGNfMSAvLyAxCmFwcF9nbG9iYWxfcHV0CnJldHN1YgoKLy8gcG9wX2NhcmQKcG9wY2FyZF8zOgpwcm90byAyIDEKaW50Y18wIC8vIDAKc3RvcmUgNAppbnRjXzAgLy8gMApzdG9yZSA1CnBvcGNhcmRfM19sMToKbG9hZCA1CmZyYW1lX2RpZyAtMgo8PQpieiBwb3BjYXJkXzNfbDUKYnl0ZWMgMTMgLy8gImNhcmRzIgphcHBfZ2xvYmFsX2dldApsb2FkIDQKZ2V0Ynl0ZQppbnRjXzAgLy8gMAo9PQpibnogcG9wY2FyZF8zX2w0CnBvcGNhcmRfM19sMzoKbG9hZCA0CmludGNfMSAvLyAxCisKc3RvcmUgNApiIHBvcGNhcmRfM19sMQpwb3BjYXJkXzNfbDQ6CmxvYWQgNQppbnRjXzEgLy8gMQorCnN0b3JlIDUKYiBwb3BjYXJkXzNfbDMKcG9wY2FyZF8zX2w1Ogpsb2FkIDQKaW50Y18xIC8vIDEKLQpzdG9yZSA0CmJ5dGVjIDEzIC8vICJjYXJkcyIKYnl0ZWMgMTMgLy8gImNhcmRzIgphcHBfZ2xvYmFsX2dldApsb2FkIDQKZnJhbWVfZGlnIC0xCnNldGJ5dGUKYXBwX2dsb2JhbF9wdXQKYnl0ZWMgMTQgLy8gImNhcmRzX2xlZnQiCmJ5dGVjIDE0IC8vICJjYXJkc19sZWZ0IgphcHBfZ2xvYmFsX2dldAppbnRjXzEgLy8gMQotCmFwcF9nbG9iYWxfcHV0CnB1c2hieXRlcyAweDZjNjE3Mzc0NWY2MzYxNzI2NCAvLyAibGFzdF9jYXJkIgpsb2FkIDQKYXBwX2dsb2JhbF9wdXQKbG9hZCA0CnJldHN1YgoKLy8gY2FyZF92YWx1ZQpjYXJkdmFsdWVfNDoKcHJvdG8gMSAxCmZyYW1lX2RpZyAtMQpwdXNoaW50IDEzIC8vIDEzCiUKaW50Y18xIC8vIDEKKwpwdXNoaW50IDEwIC8vIDEwCmR1cDIKPgpzZWxlY3QKcmV0c3ViCgovLyBzaWdfdG9fY2FyZF9wb3MKc2lndG9jYXJkcG9zXzU6CnByb3RvIDEgMQpmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKYnl0ZWMgMTQgLy8gImNhcmRzX2xlZnQiCmFwcF9nbG9iYWxfZ2V0Cml0b2IKZXh0cmFjdCA3IDEKYiUKYnRvaQpyZXRzdWIKCi8vIGdpdmVfY2FyZF90b19wbGF5ZXIKZ2l2ZWNhcmR0b3BsYXllcl82Ogpwcm90byAxIDAKZnJhbWVfZGlnIC0xCmludGNfMSAvLyAxCmNhbGxzdWIgcG9wY2FyZF8zCnN0b3JlIDEKYnl0ZWMgMTIgLy8gInBsYXllcl9jYXJkcyIKYnl0ZWMgMTIgLy8gInBsYXllcl9jYXJkcyIKYXBwX2dsb2JhbF9nZXQKaW50Y18xIC8vIDEKKwphcHBfZ2xvYmFsX3B1dApsb2FkIDEKY2FsbHN1YiBjYXJkdmFsdWVfNApzdG9yZSAyCmxvYWQgMgppbnRjXzEgLy8gMQo9PQpibnogZ2l2ZWNhcmR0b3BsYXllcl82X2wyCmxvYWQgMgpiIGdpdmVjYXJkdG9wbGF5ZXJfNl9sMwpnaXZlY2FyZHRvcGxheWVyXzZfbDI6CnB1c2hpbnQgMTEgLy8gMTEKZ2l2ZWNhcmR0b3BsYXllcl82X2wzOgpzdG9yZSAzCmJ5dGVjIDE2IC8vICJwbGF5ZXJfbWluX3RvdGFsIgpieXRlYyAxNiAvLyAicGxheWVyX21pbl90b3RhbCIKYXBwX2dsb2JhbF9nZXQKbG9hZCAyCisKYXBwX2dsb2JhbF9wdXQKYnl0ZWNfMSAvLyAicGxheWVyX21heF90b3RhbCIKYnl0ZWNfMSAvLyAicGxheWVyX21heF90b3RhbCIKYXBwX2dsb2JhbF9nZXQKbG9hZCAzCisKYXBwX2dsb2JhbF9wdXQKcmV0c3ViCgovLyBnaXZlX2NhcmRfdG9fYmFuawpnaXZlY2FyZHRvYmFua183Ogpwcm90byAxIDAKZnJhbWVfZGlnIC0xCmludGNfMiAvLyAyCmNhbGxzdWIgcG9wY2FyZF8zCnN0b3JlIDYKYnl0ZWMgOSAvLyAiYmFua19jYXJkcyIKYnl0ZWMgOSAvLyAiYmFua19jYXJkcyIKYXBwX2dsb2JhbF9nZXQKaW50Y18xIC8vIDEKKwphcHBfZ2xvYmFsX3B1dApsb2FkIDYKY2FsbHN1YiBjYXJkdmFsdWVfNApzdG9yZSA3CmxvYWQgNwppbnRjXzEgLy8gMQo9PQpibnogZ2l2ZWNhcmR0b2JhbmtfN19sMgpsb2FkIDcKYiBnaXZlY2FyZHRvYmFua183X2wzCmdpdmVjYXJkdG9iYW5rXzdfbDI6CnB1c2hpbnQgMTEgLy8gMTEKZ2l2ZWNhcmR0b2JhbmtfN19sMzoKc3RvcmUgOApieXRlYyAxNyAvLyAiYmFua19taW5fdG90YWwiCmJ5dGVjIDE3IC8vICJiYW5rX21pbl90b3RhbCIKYXBwX2dsb2JhbF9nZXQKbG9hZCA3CisKYXBwX2dsb2JhbF9wdXQKYnl0ZWMgNCAvLyAiYmFua19tYXhfdG90YWwiCmJ5dGVjIDQgLy8gImJhbmtfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldApsb2FkIDgKKwphcHBfZ2xvYmFsX3B1dApyZXRzdWIKCi8vIGRpc3RyaWJ1dGVfcmVxCmRpc3RyaWJ1dGVyZXFfODoKcHJvdG8gMSAwCmJ5dGVjXzAgLy8gInN0YXRlIgphcHBfZ2xvYmFsX2dldApwdXNoaW50IDMgLy8gMwo9PQphc3NlcnQKdHhuIFNlbmRlcgpnbG9iYWwgQ3JlYXRvckFkZHJlc3MKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApieXRlY18yIC8vICJub25jZSIKanNvbl9yZWYgSlNPTlVpbnQ2NApieXRlY18yIC8vICJub25jZSIKYXBwX2dsb2JhbF9nZXQKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApieXRlYyAyMCAvLyAiYXBwIgpqc29uX3JlZiBKU09OVWludDY0Cmdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25JRAo9PQphc3NlcnQKYnl0ZWMgMTAgLy8gInJlcXVlc3QiCmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMAphcHBfZ2xvYmFsX3B1dApieXRlY18yIC8vICJub25jZSIKYnl0ZWNfMiAvLyAibm9uY2UiCmFwcF9nbG9iYWxfZ2V0CmludGNfMSAvLyAxCisKYXBwX2dsb2JhbF9wdXQKYnl0ZWNfMCAvLyAic3RhdGUiCnB1c2hpbnQgNCAvLyA0CmFwcF9nbG9iYWxfcHV0CmJ5dGVjIDYgLy8gImFjdGlvbl90aW1lciIKZ2xvYmFsIFJvdW5kCmFwcF9nbG9iYWxfcHV0CnJldHN1YgoKLy8gZGlzdHJpYnV0ZV9hY3QKZGlzdHJpYnV0ZWFjdF85Ogpwcm90byAxIDAKaW50Y18wIC8vIDAKc3RvcmUgMApkaXN0cmlidXRlYWN0XzlfbDE6CmxvYWQgMAppbnRjIDQgLy8gNTAwMApnbG9iYWwgTWluVHhuRmVlCi8KPApibnogZGlzdHJpYnV0ZWFjdF85X2wxMApieXRlY18wIC8vICJzdGF0ZSIKYXBwX2dsb2JhbF9nZXQKcHVzaGludCA0IC8vIDQKPT0KYXNzZXJ0CmJ5dGVjIDEwIC8vICJyZXF1ZXN0IgphcHBfZ2xvYmFsX2dldApmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKYnl0ZWNfMyAvLyAiYmFuayIKYXBwX2dsb2JhbF9nZXQKZWQyNTUxOXZlcmlmeQphc3NlcnQKYnl0ZWMgMTIgLy8gInBsYXllcl9jYXJkcyIKYXBwX2dsb2JhbF9nZXQKaW50Y18yIC8vIDIKPApibnogZGlzdHJpYnV0ZWFjdF85X2w5CmZyYW1lX2RpZyAtMQpjYWxsc3ViIHNpZ3RvY2FyZHBvc181CmNhbGxzdWIgZ2l2ZWNhcmR0b2JhbmtfNwpkaXN0cmlidXRlYWN0XzlfbDQ6CmJ5dGVjIDkgLy8gImJhbmtfY2FyZHMiCmFwcF9nbG9iYWxfZ2V0CmludGNfMSAvLyAxCj09CmJ5dGVjXzEgLy8gInBsYXllcl9tYXhfdG90YWwiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgMjEgLy8gMjEKPT0KJiYKYm56IGRpc3RyaWJ1dGVhY3RfOV9sOApieXRlYyA5IC8vICJiYW5rX2NhcmRzIgphcHBfZ2xvYmFsX2dldAppbnRjXzEgLy8gMQo9PQpieXRlY18xIC8vICJwbGF5ZXJfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldApwdXNoaW50IDIxIC8vIDIxCiE9CiYmCmJueiBkaXN0cmlidXRlYWN0XzlfbDcKYnl0ZWNfMCAvLyAic3RhdGUiCnB1c2hpbnQgMyAvLyAzCmFwcF9nbG9iYWxfcHV0CmIgZGlzdHJpYnV0ZWFjdF85X2wxMQpkaXN0cmlidXRlYWN0XzlfbDc6CmJ5dGVjXzAgLy8gInN0YXRlIgppbnRjXzMgLy8gNQphcHBfZ2xvYmFsX3B1dApiIGRpc3RyaWJ1dGVhY3RfOV9sMTEKZGlzdHJpYnV0ZWFjdF85X2w4OgpieXRlY18wIC8vICJzdGF0ZSIKcHVzaGludCA3IC8vIDcKYXBwX2dsb2JhbF9wdXQKYiBkaXN0cmlidXRlYWN0XzlfbDExCmRpc3RyaWJ1dGVhY3RfOV9sOToKZnJhbWVfZGlnIC0xCmNhbGxzdWIgc2lndG9jYXJkcG9zXzUKY2FsbHN1YiBnaXZlY2FyZHRvcGxheWVyXzYKYiBkaXN0cmlidXRlYWN0XzlfbDQKZGlzdHJpYnV0ZWFjdF85X2wxMDoKaXR4bl9iZWdpbgpwdXNoaW50IDYgLy8gYXBwbAppdHhuX2ZpZWxkIFR5cGVFbnVtCmludGNfMyAvLyBEZWxldGVBcHBsaWNhdGlvbgppdHhuX2ZpZWxkIE9uQ29tcGxldGlvbgpieXRlYyAxMSAvLyAweDA2ODEwMQppdHhuX2ZpZWxkIEFwcHJvdmFsUHJvZ3JhbQpieXRlYyAxMSAvLyAweDA2ODEwMQppdHhuX2ZpZWxkIENsZWFyU3RhdGVQcm9ncmFtCml0eG5fc3VibWl0CmxvYWQgMAppbnRjXzEgLy8gMQorCnN0b3JlIDAKYiBkaXN0cmlidXRlYWN0XzlfbDEKZGlzdHJpYnV0ZWFjdF85X2wxMToKYnl0ZWMgNiAvLyAiYWN0aW9uX3RpbWVyIgpnbG9iYWwgUm91bmQKYXBwX2dsb2JhbF9wdXQKcmV0c3ViCgovLyBoaXRfcmVxCmhpdHJlcV8xMDoKcHJvdG8gMSAwCmJ5dGVjXzAgLy8gInN0YXRlIgphcHBfZ2xvYmFsX2dldAppbnRjXzMgLy8gNQo9PQphc3NlcnQKdHhuIFNlbmRlcgpnbG9iYWwgQ3JlYXRvckFkZHJlc3MKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApieXRlY18yIC8vICJub25jZSIKanNvbl9yZWYgSlNPTlVpbnQ2NApieXRlY18yIC8vICJub25jZSIKYXBwX2dsb2JhbF9nZXQKPT0KYXNzZXJ0CmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMApieXRlYyAyMCAvLyAiYXBwIgpqc29uX3JlZiBKU09OVWludDY0Cmdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25JRAo9PQphc3NlcnQKYnl0ZWMgMTAgLy8gInJlcXVlc3QiCmZyYW1lX2RpZyAtMQpleHRyYWN0IDIgMAphcHBfZ2xvYmFsX3B1dApieXRlY18yIC8vICJub25jZSIKYnl0ZWNfMiAvLyAibm9uY2UiCmFwcF9nbG9iYWxfZ2V0CmludGNfMSAvLyAxCisKYXBwX2dsb2JhbF9wdXQKYnl0ZWNfMCAvLyAic3RhdGUiCnB1c2hpbnQgNiAvLyA2CmFwcF9nbG9iYWxfcHV0CmJ5dGVjIDYgLy8gImFjdGlvbl90aW1lciIKZ2xvYmFsIFJvdW5kCmFwcF9nbG9iYWxfcHV0CnJldHN1YgoKLy8gaGl0X2FjdApoaXRhY3RfMTE6CnByb3RvIDEgMAppbnRjXzAgLy8gMApzdG9yZSA5CmhpdGFjdF8xMV9sMToKbG9hZCA5CmludGMgNCAvLyA1MDAwCmdsb2JhbCBNaW5UeG5GZWUKLwo8CmJueiBoaXRhY3RfMTFfbDkKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgNiAvLyA2Cj09CmFzc2VydApieXRlYyAxMCAvLyAicmVxdWVzdCIKYXBwX2dsb2JhbF9nZXQKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmJ5dGVjXzMgLy8gImJhbmsiCmFwcF9nbG9iYWxfZ2V0CmVkMjU1MTl2ZXJpZnkKYXNzZXJ0CmZyYW1lX2RpZyAtMQpjYWxsc3ViIHNpZ3RvY2FyZHBvc181CmNhbGxzdWIgZ2l2ZWNhcmR0b3BsYXllcl82CmJ5dGVjXzEgLy8gInBsYXllcl9tYXhfdG90YWwiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgMjEgLy8gMjEKPgpieXRlY18xIC8vICJwbGF5ZXJfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldApieXRlYyAxNiAvLyAicGxheWVyX21pbl90b3RhbCIKYXBwX2dsb2JhbF9nZXQKPT0KJiYKYm56IGhpdGFjdF8xMV9sOApieXRlY18xIC8vICJwbGF5ZXJfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldApwdXNoaW50IDIxIC8vIDIxCj4KYnl0ZWNfMSAvLyAicGxheWVyX21heF90b3RhbCIKYXBwX2dsb2JhbF9nZXQKYnl0ZWMgMTYgLy8gInBsYXllcl9taW5fdG90YWwiCmFwcF9nbG9iYWxfZ2V0CiE9CiYmCmJueiBoaXRhY3RfMTFfbDcKYnl0ZWNfMSAvLyAicGxheWVyX21heF90b3RhbCIKYXBwX2dsb2JhbF9nZXQKcHVzaGludCAyMSAvLyAyMQo9PQpibnogaGl0YWN0XzExX2w2CmJ5dGVjXzAgLy8gInN0YXRlIgppbnRjXzMgLy8gNQphcHBfZ2xvYmFsX3B1dApiIGhpdGFjdF8xMV9sMTAKaGl0YWN0XzExX2w2OgpieXRlY18wIC8vICJzdGF0ZSIKcHVzaGludCA3IC8vIDcKYXBwX2dsb2JhbF9wdXQKYiBoaXRhY3RfMTFfbDEwCmhpdGFjdF8xMV9sNzoKYnl0ZWNfMCAvLyAic3RhdGUiCmludGNfMyAvLyA1CmFwcF9nbG9iYWxfcHV0CmJ5dGVjXzEgLy8gInBsYXllcl9tYXhfdG90YWwiCmJ5dGVjXzEgLy8gInBsYXllcl9tYXhfdG90YWwiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgMTAgLy8gMTAKLQphcHBfZ2xvYmFsX3B1dApiIGhpdGFjdF8xMV9sMTAKaGl0YWN0XzExX2w4OgpieXRlY18wIC8vICJzdGF0ZSIKcHVzaGludCA5IC8vIDkKYXBwX2dsb2JhbF9wdXQKYnl0ZWMgOCAvLyAid2lubmVyIgpieXRlY18zIC8vICJiYW5rIgphcHBfZ2xvYmFsX2dldAphcHBfZ2xvYmFsX3B1dApiIGhpdGFjdF8xMV9sMTAKaGl0YWN0XzExX2w5OgppdHhuX2JlZ2luCnB1c2hpbnQgNiAvLyBhcHBsCml0eG5fZmllbGQgVHlwZUVudW0KaW50Y18zIC8vIERlbGV0ZUFwcGxpY2F0aW9uCml0eG5fZmllbGQgT25Db21wbGV0aW9uCmJ5dGVjIDExIC8vIDB4MDY4MTAxCml0eG5fZmllbGQgQXBwcm92YWxQcm9ncmFtCmJ5dGVjIDExIC8vIDB4MDY4MTAxCml0eG5fZmllbGQgQ2xlYXJTdGF0ZVByb2dyYW0KaXR4bl9zdWJtaXQKbG9hZCA5CmludGNfMSAvLyAxCisKc3RvcmUgOQpiIGhpdGFjdF8xMV9sMQpoaXRhY3RfMTFfbDEwOgpieXRlYyA2IC8vICJhY3Rpb25fdGltZXIiCmdsb2JhbCBSb3VuZAphcHBfZ2xvYmFsX3B1dApyZXRzdWIKCi8vIHN0YW5kX3JlcQpzdGFuZHJlcV8xMjoKcHJvdG8gMSAwCmJ5dGVjXzAgLy8gInN0YXRlIgphcHBfZ2xvYmFsX2dldAppbnRjXzMgLy8gNQo9PQpieXRlY18wIC8vICJzdGF0ZSIKYXBwX2dsb2JhbF9nZXQKcHVzaGludCA3IC8vIDcKPT0KfHwKYXNzZXJ0CnR4biBTZW5kZXIKZ2xvYmFsIENyZWF0b3JBZGRyZXNzCj09CmFzc2VydApmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKYnl0ZWNfMiAvLyAibm9uY2UiCmpzb25fcmVmIEpTT05VaW50NjQKYnl0ZWNfMiAvLyAibm9uY2UiCmFwcF9nbG9iYWxfZ2V0Cj09CmFzc2VydApmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKYnl0ZWMgMjAgLy8gImFwcCIKanNvbl9yZWYgSlNPTlVpbnQ2NApnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uSUQKPT0KYXNzZXJ0CmJ5dGVjIDEwIC8vICJyZXF1ZXN0IgpmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKYXBwX2dsb2JhbF9wdXQKYnl0ZWNfMiAvLyAibm9uY2UiCmJ5dGVjXzIgLy8gIm5vbmNlIgphcHBfZ2xvYmFsX2dldAppbnRjXzEgLy8gMQorCmFwcF9nbG9iYWxfcHV0CmJ5dGVjXzAgLy8gInN0YXRlIgpwdXNoaW50IDggLy8gOAphcHBfZ2xvYmFsX3B1dApieXRlYyA2IC8vICJhY3Rpb25fdGltZXIiCmdsb2JhbCBSb3VuZAphcHBfZ2xvYmFsX3B1dApyZXRzdWIKCi8vIHN0YW5kX2FjdApzdGFuZGFjdF8xMzoKcHJvdG8gMSAwCmludGNfMCAvLyAwCnN0b3JlIDEwCnN0YW5kYWN0XzEzX2wxOgpsb2FkIDEwCmludGMgNCAvLyA1MDAwCmdsb2JhbCBNaW5UeG5GZWUKLwo8CmJueiBzdGFuZGFjdF8xM19sMTcKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgOCAvLyA4Cj09CmFzc2VydApieXRlYyAxMCAvLyAicmVxdWVzdCIKYXBwX2dsb2JhbF9nZXQKZnJhbWVfZGlnIC0xCmV4dHJhY3QgMiAwCmJ5dGVjXzMgLy8gImJhbmsiCmFwcF9nbG9iYWxfZ2V0CmVkMjU1MTl2ZXJpZnkKYXNzZXJ0CmZyYW1lX2RpZyAtMQpjYWxsc3ViIHNpZ3RvY2FyZHBvc181CmNhbGxzdWIgZ2l2ZWNhcmR0b2JhbmtfNwpieXRlYyA0IC8vICJiYW5rX21heF90b3RhbCIKYXBwX2dsb2JhbF9nZXQKcHVzaGludCAyMSAvLyAyMQo+CmJ5dGVjIDQgLy8gImJhbmtfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldApieXRlYyAxNyAvLyAiYmFua19taW5fdG90YWwiCmFwcF9nbG9iYWxfZ2V0Cj09CiYmCmJueiBzdGFuZGFjdF8xM19sMTYKYnl0ZWMgNCAvLyAiYmFua19tYXhfdG90YWwiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgMjEgLy8gMjEKPgpieXRlYyA0IC8vICJiYW5rX21heF90b3RhbCIKYXBwX2dsb2JhbF9nZXQKYnl0ZWMgMTcgLy8gImJhbmtfbWluX3RvdGFsIgphcHBfZ2xvYmFsX2dldAohPQomJgpibnogc3RhbmRhY3RfMTNfbDE1CmJ5dGVjIDQgLy8gImJhbmtfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldApwdXNoaW50IDE3IC8vIDE3Cj49CmJueiBzdGFuZGFjdF8xM19sNgpieXRlY18wIC8vICJzdGF0ZSIKcHVzaGludCA3IC8vIDcKYXBwX2dsb2JhbF9wdXQKYiBzdGFuZGFjdF8xM19sMTgKc3RhbmRhY3RfMTNfbDY6CmJ5dGVjIDQgLy8gImJhbmtfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldApieXRlY18xIC8vICJwbGF5ZXJfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldAo+CmJueiBzdGFuZGFjdF8xM19sMTQKYnl0ZWMgNCAvLyAiYmFua19tYXhfdG90YWwiCmFwcF9nbG9iYWxfZ2V0CmJ5dGVjXzEgLy8gInBsYXllcl9tYXhfdG90YWwiCmFwcF9nbG9iYWxfZ2V0CjwKYm56IHN0YW5kYWN0XzEzX2wxMwpieXRlY18xIC8vICJwbGF5ZXJfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldApwdXNoaW50IDIxIC8vIDIxCj09CmJ5dGVjIDEyIC8vICJwbGF5ZXJfY2FyZHMiCmFwcF9nbG9iYWxfZ2V0CmludGNfMiAvLyAyCj09CiYmCmJ5dGVjIDkgLy8gImJhbmtfY2FyZHMiCmFwcF9nbG9iYWxfZ2V0CmludGNfMiAvLyAyCiE9CiYmCmJueiBzdGFuZGFjdF8xM19sMTIKYnl0ZWNfMSAvLyAicGxheWVyX21heF90b3RhbCIKYXBwX2dsb2JhbF9nZXQKcHVzaGludCAyMSAvLyAyMQo9PQpieXRlYyAxMiAvLyAicGxheWVyX2NhcmRzIgphcHBfZ2xvYmFsX2dldAppbnRjXzIgLy8gMgohPQomJgpieXRlYyA5IC8vICJiYW5rX2NhcmRzIgphcHBfZ2xvYmFsX2dldAppbnRjXzIgLy8gMgo9PQomJgpibnogc3RhbmRhY3RfMTNfbDExCmNhbGxzdWIgcHVzaF8xNgpiIHN0YW5kYWN0XzEzX2wxOApzdGFuZGFjdF8xM19sMTE6CmNhbGxzdWIgd2luYmFua18xNApiIHN0YW5kYWN0XzEzX2wxOApzdGFuZGFjdF8xM19sMTI6CmNhbGxzdWIgd2lucGxheWVyXzE1CmIgc3RhbmRhY3RfMTNfbDE4CnN0YW5kYWN0XzEzX2wxMzoKY2FsbHN1YiB3aW5wbGF5ZXJfMTUKYiBzdGFuZGFjdF8xM19sMTgKc3RhbmRhY3RfMTNfbDE0OgpjYWxsc3ViIHdpbmJhbmtfMTQKYiBzdGFuZGFjdF8xM19sMTgKc3RhbmRhY3RfMTNfbDE1OgpieXRlY18wIC8vICJzdGF0ZSIKcHVzaGludCA3IC8vIDcKYXBwX2dsb2JhbF9wdXQKYnl0ZWMgNCAvLyAiYmFua19tYXhfdG90YWwiCmJ5dGVjIDQgLy8gImJhbmtfbWF4X3RvdGFsIgphcHBfZ2xvYmFsX2dldApwdXNoaW50IDEwIC8vIDEwCi0KYXBwX2dsb2JhbF9wdXQKYiBzdGFuZGFjdF8xM19sMTgKc3RhbmRhY3RfMTNfbDE2OgpieXRlY18wIC8vICJzdGF0ZSIKcHVzaGludCA5IC8vIDkKYXBwX2dsb2JhbF9wdXQKYnl0ZWMgOCAvLyAid2lubmVyIgpnbG9iYWwgQ3JlYXRvckFkZHJlc3MKYXBwX2dsb2JhbF9wdXQKYiBzdGFuZGFjdF8xM19sMTgKc3RhbmRhY3RfMTNfbDE3OgppdHhuX2JlZ2luCnB1c2hpbnQgNiAvLyBhcHBsCml0eG5fZmllbGQgVHlwZUVudW0KaW50Y18zIC8vIERlbGV0ZUFwcGxpY2F0aW9uCml0eG5fZmllbGQgT25Db21wbGV0aW9uCmJ5dGVjIDExIC8vIDB4MDY4MTAxCml0eG5fZmllbGQgQXBwcm92YWxQcm9ncmFtCmJ5dGVjIDExIC8vIDB4MDY4MTAxCml0eG5fZmllbGQgQ2xlYXJTdGF0ZVByb2dyYW0KaXR4bl9zdWJtaXQKbG9hZCAxMAppbnRjXzEgLy8gMQorCnN0b3JlIDEwCmIgc3RhbmRhY3RfMTNfbDEKc3RhbmRhY3RfMTNfbDE4OgpieXRlYyA2IC8vICJhY3Rpb25fdGltZXIiCmdsb2JhbCBSb3VuZAphcHBfZ2xvYmFsX3B1dApyZXRzdWIKCi8vIHdpbl9iYW5rCndpbmJhbmtfMTQ6CnByb3RvIDAgMApieXRlY18wIC8vICJzdGF0ZSIKcHVzaGludCA5IC8vIDkKYXBwX2dsb2JhbF9wdXQKYnl0ZWMgOCAvLyAid2lubmVyIgpieXRlY18zIC8vICJiYW5rIgphcHBfZ2xvYmFsX2dldAphcHBfZ2xvYmFsX3B1dApyZXRzdWIKCi8vIHdpbl9wbGF5ZXIKd2lucGxheWVyXzE1Ogpwcm90byAwIDAKYnl0ZWNfMCAvLyAic3RhdGUiCnB1c2hpbnQgOSAvLyA5CmFwcF9nbG9iYWxfcHV0CmJ5dGVjIDggLy8gIndpbm5lciIKZ2xvYmFsIENyZWF0b3JBZGRyZXNzCmFwcF9nbG9iYWxfcHV0CnJldHN1YgoKLy8gcHVzaApwdXNoXzE2Ogpwcm90byAwIDAKYnl0ZWNfMCAvLyAic3RhdGUiCnB1c2hpbnQgMTAgLy8gMTAKYXBwX2dsb2JhbF9wdXQKcmV0c3ViCgovLyBmb3JmZWl0CmZvcmZlaXRfMTc6CnByb3RvIDAgMApieXRlY18wIC8vICJzdGF0ZSIKYXBwX2dsb2JhbF9nZXQKaW50Y18zIC8vIDUKPT0KYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgNyAvLyA3Cj09Cnx8CnR4biBTZW5kZXIKYnl0ZWNfMyAvLyAiYmFuayIKYXBwX2dsb2JhbF9nZXQKPT0KJiYKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgNiAvLyA2Cj09CmJ5dGVjXzAgLy8gInN0YXRlIgphcHBfZ2xvYmFsX2dldApwdXNoaW50IDggLy8gOAo9PQp8fAp0eG4gU2VuZGVyCmdsb2JhbCBDcmVhdG9yQWRkcmVzcwo9PQomJgp8fApieXRlYyA2IC8vICJhY3Rpb25fdGltZXIiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgMTAgLy8gMTAKKwpnbG9iYWwgUm91bmQKPD0KfHwKYXNzZXJ0CmJ5dGVjXzAgLy8gInN0YXRlIgpwdXNoaW50IDkgLy8gOQphcHBfZ2xvYmFsX3B1dApieXRlYyA4IC8vICJ3aW5uZXIiCnR4biBTZW5kZXIKYXBwX2dsb2JhbF9wdXQKcmV0c3ViCgovLyBkZWxldGUKZGVsZXRlXzE4Ogpwcm90byAzIDAKZnJhbWVfZGlnIC0zCnR4bmFzIEFzc2V0cwpieXRlYyA1IC8vICJhc3NldCIKYXBwX2dsb2JhbF9nZXQKPT0KYXNzZXJ0CnR4biBTZW5kZXIKZ2xvYmFsIENyZWF0b3JBZGRyZXNzCj09CmJueiBkZWxldGVfMThfbDExCmZyYW1lX2RpZyAtMgp0eG5hcyBBY2NvdW50cwpnbG9iYWwgQ3JlYXRvckFkZHJlc3MKPT0KZGVsZXRlXzE4X2wyOgphc3NlcnQKZnJhbWVfZGlnIC0xCnR4bmFzIEFjY291bnRzCmJ5dGVjIDE4IC8vICJmZWVfaG9sZGVyIgphcHBfZ2xvYmFsX2dldAo9PQphc3NlcnQKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgOSAvLyA5Cj09CmJueiBkZWxldGVfMThfbDgKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CmludGNfMiAvLyAyCj09CmJueiBkZWxldGVfMThfbDcKYnl0ZWNfMCAvLyAic3RhdGUiCmFwcF9nbG9iYWxfZ2V0CnB1c2hpbnQgMTAgLy8gMTAKPT0KYm56IGRlbGV0ZV8xOF9sNgplcnIKZGVsZXRlXzE4X2w2OgpjYWxsc3ViIGdpdmVmdW5kc2JhY2tfMTkKYiBkZWxldGVfMThfbDEyCmRlbGV0ZV8xOF9sNzoKdHhuIFNlbmRlcgpnbG9iYWwgQ3JlYXRvckFkZHJlc3MKPT0KYXNzZXJ0CmJ5dGVjXzAgLy8gInN0YXRlIgphcHBfZ2xvYmFsX2dldAppbnRjXzIgLy8gMgo9PQphc3NlcnQKaW50Y18wIC8vIDAKY2FsbHN1YiBnaXZlZnVuZHNjYWxsZXJfMjAKYiBkZWxldGVfMThfbDEyCmRlbGV0ZV8xOF9sODoKYnl0ZWMgOCAvLyAid2lubmVyIgphcHBfZ2xvYmFsX2dldAp0eG4gU2VuZGVyCj09CmFzc2VydApieXRlYyA4IC8vICJ3aW5uZXIiCmFwcF9nbG9iYWxfZ2V0CmJ5dGVjXzMgLy8gImJhbmsiCmFwcF9nbG9iYWxfZ2V0Cj09CmJueiBkZWxldGVfMThfbDEwCmludGNfMSAvLyAxCmNhbGxzdWIgZ2l2ZWZ1bmRzY2FsbGVyXzIwCmIgZGVsZXRlXzE4X2wxMgpkZWxldGVfMThfbDEwOgppbnRjXzAgLy8gMApjYWxsc3ViIGdpdmVmdW5kc2NhbGxlcl8yMApiIGRlbGV0ZV8xOF9sMTIKZGVsZXRlXzE4X2wxMToKZnJhbWVfZGlnIC0yCnR4bmFzIEFjY291bnRzCmJ5dGVjXzMgLy8gImJhbmsiCmFwcF9nbG9iYWxfZ2V0Cj09CmIgZGVsZXRlXzE4X2wyCmRlbGV0ZV8xOF9sMTI6CnJldHN1YgoKLy8gZ2l2ZV9mdW5kc19iYWNrCmdpdmVmdW5kc2JhY2tfMTk6CnByb3RvIDAgMAppdHhuX2JlZ2luCnB1c2hpbnQgNCAvLyBheGZlcgppdHhuX2ZpZWxkIFR5cGVFbnVtCmJ5dGVjIDUgLy8gImFzc2V0IgphcHBfZ2xvYmFsX2dldAppdHhuX2ZpZWxkIFhmZXJBc3NldApieXRlYyAxNSAvLyAic3Rha2UiCmFwcF9nbG9iYWxfZ2V0Cml0eG5fZmllbGQgQXNzZXRBbW91bnQKZ2xvYmFsIENyZWF0b3JBZGRyZXNzCml0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgppdHhuX25leHQKcHVzaGludCA0IC8vIGF4ZmVyCml0eG5fZmllbGQgVHlwZUVudW0KYnl0ZWMgNSAvLyAiYXNzZXQiCmFwcF9nbG9iYWxfZ2V0Cml0eG5fZmllbGQgWGZlckFzc2V0CmJ5dGVjXzMgLy8gImJhbmsiCmFwcF9nbG9iYWxfZ2V0Cml0eG5fZmllbGQgQXNzZXRDbG9zZVRvCml0eG5fbmV4dAppbnRjXzEgLy8gcGF5Cml0eG5fZmllbGQgVHlwZUVudW0KZ2xvYmFsIENyZWF0b3JBZGRyZXNzCml0eG5fZmllbGQgQ2xvc2VSZW1haW5kZXJUbwppdHhuX3N1Ym1pdApyZXRzdWIKCi8vIGdpdmVfZnVuZHNfY2FsbGVyCmdpdmVmdW5kc2NhbGxlcl8yMDoKcHJvdG8gMSAwCml0eG5fYmVnaW4KZnJhbWVfZGlnIC0xCmJ6IGdpdmVmdW5kc2NhbGxlcl8yMF9sMgpwdXNoaW50IDQgLy8gYXhmZXIKaXR4bl9maWVsZCBUeXBlRW51bQpieXRlYyA1IC8vICJhc3NldCIKYXBwX2dsb2JhbF9nZXQKaXR4bl9maWVsZCBYZmVyQXNzZXQKYnl0ZWMgMTUgLy8gInN0YWtlIgphcHBfZ2xvYmFsX2dldApieXRlYyAxOSAvLyAiZmVlX2Ftb3VudCIKYXBwX2dsb2JhbF9nZXQKLwppdHhuX2ZpZWxkIEFzc2V0QW1vdW50CmJ5dGVjIDE4IC8vICJmZWVfaG9sZGVyIgphcHBfZ2xvYmFsX2dldAppdHhuX2ZpZWxkIEFzc2V0UmVjZWl2ZXIKaXR4bl9uZXh0CmdpdmVmdW5kc2NhbGxlcl8yMF9sMjoKcHVzaGludCA0IC8vIGF4ZmVyCml0eG5fZmllbGQgVHlwZUVudW0KYnl0ZWMgNSAvLyAiYXNzZXQiCmFwcF9nbG9iYWxfZ2V0Cml0eG5fZmllbGQgWGZlckFzc2V0CnR4biBTZW5kZXIKaXR4bl9maWVsZCBBc3NldENsb3NlVG8KaXR4bl9uZXh0CmludGNfMSAvLyBwYXkKaXR4bl9maWVsZCBUeXBlRW51bQpnbG9iYWwgQ3JlYXRvckFkZHJlc3MKaXR4bl9maWVsZCBDbG9zZVJlbWFpbmRlclRvCml0eG5fc3VibWl0CnJldHN1YgoKLy8gaGVsbG8KaGVsbG9fMjE6CnByb3RvIDEgMQpieXRlYyA3IC8vICIiCnB1c2hieXRlcyAweDQ4NjU2YzZjNmYyYzIwIC8vICJIZWxsbywgIgpmcmFtZV9kaWcgLTEKZXh0cmFjdCAyIDAKY29uY2F0CmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApsZW4KaXRvYgpleHRyYWN0IDYgMApmcmFtZV9kaWcgMApjb25jYXQKZnJhbWVfYnVyeSAwCnJldHN1YgoKLy8gY3JlYXRlX2Nhc3RlcgpjcmVhdGVjYXN0ZXJfMjI6CnByb3RvIDAgMAppbnRjXzAgLy8gMApkdXBuIDIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQppbnRjXzAgLy8gMApnZXRieXRlCmZyYW1lX2J1cnkgMAp0eG5hIEFwcGxpY2F0aW9uQXJncyAyCmludGNfMCAvLyAwCmdldGJ5dGUKZnJhbWVfYnVyeSAxCnR4bmEgQXBwbGljYXRpb25BcmdzIDMKaW50Y18wIC8vIDAKZ2V0Ynl0ZQpmcmFtZV9idXJ5IDIKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDIKY2FsbHN1YiBjcmVhdGVfMApyZXRzdWIKCi8vIG9wdF9pbl9jYXN0ZXIKb3B0aW5jYXN0ZXJfMjM6CnByb3RvIDAgMAppbnRjXzAgLy8gMApkdXAKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpidG9pCmZyYW1lX2J1cnkgMQp0eG4gR3JvdXBJbmRleAppbnRjXzEgLy8gMQotCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApndHhucyBUeXBlRW51bQpwdXNoaW50IDQgLy8gYXhmZXIKPT0KYXNzZXJ0CmZyYW1lX2RpZyAwCmZyYW1lX2RpZyAxCmNhbGxzdWIgb3B0aW5fMQpyZXRzdWIKCi8vIGluaXRfY2FzdGVyCmluaXRjYXN0ZXJfMjQ6CnByb3RvIDAgMAppbnRjXzAgLy8gMApkdXAKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQppbnRjXzAgLy8gMApnZXRieXRlCmZyYW1lX2J1cnkgMQp0eG4gR3JvdXBJbmRleAppbnRjXzEgLy8gMQotCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApndHhucyBUeXBlRW51bQppbnRjXzEgLy8gcGF5Cj09CmFzc2VydApmcmFtZV9kaWcgMApmcmFtZV9kaWcgMQpjYWxsc3ViIGluaXRfMgpyZXRzdWIKCi8vIGRpc3RyaWJ1dGVfcmVxX2Nhc3RlcgpkaXN0cmlidXRlcmVxY2FzdGVyXzI1Ogpwcm90byAwIDAKYnl0ZWMgNyAvLyAiIgp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApjYWxsc3ViIGRpc3RyaWJ1dGVyZXFfOApyZXRzdWIKCi8vIGRpc3RyaWJ1dGVfYWN0X2Nhc3RlcgpkaXN0cmlidXRlYWN0Y2FzdGVyXzI2Ogpwcm90byAwIDAKYnl0ZWMgNyAvLyAiIgp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMApmcmFtZV9kaWcgMApjYWxsc3ViIGRpc3RyaWJ1dGVhY3RfOQpyZXRzdWIKCi8vIGhpdF9yZXFfY2FzdGVyCmhpdHJlcWNhc3Rlcl8yNzoKcHJvdG8gMCAwCmJ5dGVjIDcgLy8gIiIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpmcmFtZV9idXJ5IDAKZnJhbWVfZGlnIDAKY2FsbHN1YiBoaXRyZXFfMTAKcmV0c3ViCgovLyBoaXRfYWN0X2Nhc3RlcgpoaXRhY3RjYXN0ZXJfMjg6CnByb3RvIDAgMApieXRlYyA3IC8vICIiCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAwCmNhbGxzdWIgaGl0YWN0XzExCnJldHN1YgoKLy8gc3RhbmRfcmVxX2Nhc3RlcgpzdGFuZHJlcWNhc3Rlcl8yOToKcHJvdG8gMCAwCmJ5dGVjIDcgLy8gIiIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQpmcmFtZV9idXJ5IDAKZnJhbWVfZGlnIDAKY2FsbHN1YiBzdGFuZHJlcV8xMgpyZXRzdWIKCi8vIHN0YW5kX2FjdF9jYXN0ZXIKc3RhbmRhY3RjYXN0ZXJfMzA6CnByb3RvIDAgMApieXRlYyA3IC8vICIiCnR4bmEgQXBwbGljYXRpb25BcmdzIDEKZnJhbWVfYnVyeSAwCmZyYW1lX2RpZyAwCmNhbGxzdWIgc3RhbmRhY3RfMTMKcmV0c3ViCgovLyBmb3JmZWl0X2Nhc3Rlcgpmb3JmZWl0Y2FzdGVyXzMxOgpwcm90byAwIDAKY2FsbHN1YiBmb3JmZWl0XzE3CnJldHN1YgoKLy8gZGVsZXRlX2Nhc3RlcgpkZWxldGVjYXN0ZXJfMzI6CnByb3RvIDAgMAppbnRjXzAgLy8gMApkdXBuIDIKdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQppbnRjXzAgLy8gMApnZXRieXRlCmZyYW1lX2J1cnkgMAp0eG5hIEFwcGxpY2F0aW9uQXJncyAyCmludGNfMCAvLyAwCmdldGJ5dGUKZnJhbWVfYnVyeSAxCnR4bmEgQXBwbGljYXRpb25BcmdzIDMKaW50Y18wIC8vIDAKZ2V0Ynl0ZQpmcmFtZV9idXJ5IDIKZnJhbWVfZGlnIDAKZnJhbWVfZGlnIDEKZnJhbWVfZGlnIDIKY2FsbHN1YiBkZWxldGVfMTgKcmV0c3ViCgovLyBoZWxsb19jYXN0ZXIKaGVsbG9jYXN0ZXJfMzM6CnByb3RvIDAgMApieXRlYyA3IC8vICIiCmR1cAp0eG5hIEFwcGxpY2F0aW9uQXJncyAxCmZyYW1lX2J1cnkgMQpmcmFtZV9kaWcgMQpjYWxsc3ViIGhlbGxvXzIxCmZyYW1lX2J1cnkgMApwdXNoYnl0ZXMgMHgxNTFmN2M3NSAvLyAweDE1MWY3Yzc1CmZyYW1lX2RpZyAwCmNvbmNhdApsb2cKcmV0c3Vi",
         "clear": "I3ByYWdtYSB2ZXJzaW9uIDgKcHVzaGludCAwIC8vIDAKcmV0dXJu"
     },
     "state": {
         "global": {
-            "num_byte_slices": 3,
-            "num_uints": 7
+            "num_byte_slices": 5,
+            "num_uints": 14
         },
         "local": {
             "num_byte_slices": 0,
@@ -69,6 +114,21 @@ _APP_SPEC_JSON = r"""{
                     "key": "bank",
                     "descr": ""
                 },
+                "bank_cards": {
+                    "type": "uint64",
+                    "key": "bank_cards",
+                    "descr": ""
+                },
+                "bank_max_total": {
+                    "type": "uint64",
+                    "key": "bank_max_total",
+                    "descr": ""
+                },
+                "bank_min_total": {
+                    "type": "uint64",
+                    "key": "bank_min_total",
+                    "descr": ""
+                },
                 "cards": {
                     "type": "bytes",
                     "key": "cards",
@@ -89,9 +149,34 @@ _APP_SPEC_JSON = r"""{
                     "key": "fee_holder",
                     "descr": ""
                 },
+                "last_card": {
+                    "type": "uint64",
+                    "key": "last_card",
+                    "descr": ""
+                },
                 "nonce": {
                     "type": "uint64",
                     "key": "nonce",
+                    "descr": ""
+                },
+                "player_cards": {
+                    "type": "uint64",
+                    "key": "player_cards",
+                    "descr": ""
+                },
+                "player_max_total": {
+                    "type": "uint64",
+                    "key": "player_max_total",
+                    "descr": ""
+                },
+                "player_min_total": {
+                    "type": "uint64",
+                    "key": "player_min_total",
+                    "descr": ""
+                },
+                "request": {
+                    "type": "bytes",
+                    "key": "request",
                     "descr": ""
                 },
                 "stake": {
@@ -102,6 +187,11 @@ _APP_SPEC_JSON = r"""{
                 "state": {
                     "type": "uint64",
                     "key": "state",
+                    "descr": ""
+                },
+                "winner": {
+                    "type": "bytes",
+                    "key": "winner",
                     "descr": ""
                 }
             },
@@ -152,6 +242,128 @@ _APP_SPEC_JSON = r"""{
                 }
             },
             {
+                "name": "init",
+                "args": [
+                    {
+                        "type": "pay",
+                        "name": "txn"
+                    },
+                    {
+                        "type": "asset",
+                        "name": "asset"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            },
+            {
+                "name": "distribute_req",
+                "args": [
+                    {
+                        "type": "byte[]",
+                        "name": "request"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Callable by the player to randomly choose a card to distribute in the initial phase.\nrequest: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`"
+            },
+            {
+                "name": "distribute_act",
+                "args": [
+                    {
+                        "type": "byte[]",
+                        "name": "sig"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            },
+            {
+                "name": "hit_req",
+                "args": [
+                    {
+                        "type": "byte[]",
+                        "name": "request"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Callable by the player to randomly choose a card to draw.\nrequest: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`"
+            },
+            {
+                "name": "hit_act",
+                "args": [
+                    {
+                        "type": "byte[]",
+                        "name": "sig"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Callable by the bank to specify what card will be drawn by the player.\nsig: signature of appState.request by appState.bank"
+            },
+            {
+                "name": "stand_req",
+                "args": [
+                    {
+                        "type": "byte[]",
+                        "name": "request"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Callable by the player to randomly choose a card to let the bank draw.\nrequest: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`"
+            },
+            {
+                "name": "stand_act",
+                "args": [
+                    {
+                        "type": "byte[]",
+                        "name": "sig"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Callable by the bank to specify what card will be drawn by the bank.\nsig: signature of appState.request by appState.bank"
+            },
+            {
+                "name": "forfeit",
+                "args": [],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Callable by either the bank or the player if the other stops interacting."
+            },
+            {
+                "name": "delete",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "asset"
+                    },
+                    {
+                        "type": "account",
+                        "name": "other"
+                    },
+                    {
+                        "type": "account",
+                        "name": "fee_holder"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                },
+                "desc": "Routes the finish, cancel and push methods\ncreator: reference to opponent's address, if existing (used to enable InnerTxn) fee_holder: reference to appState.fee_holder (used to enable InnerTxn) asset: reference to appState.asset (used to enable InnerTxn)"
+            },
+            {
                 "name": "hello",
                 "args": [
                     {
@@ -192,6 +404,11 @@ class DeployCreate(algokit_utils.DeployCreateCallArgs, _TArgsHolder[_TArgs], typ
     pass
 
 
+@dataclasses.dataclass(kw_only=True)
+class Deploy(algokit_utils.DeployCallArgs, _TArgsHolder[_TArgs], typing.Generic[_TArgs]):
+    pass
+
+
 def _filter_none(value: dict | typing.Any) -> dict | typing.Any:
     if isinstance(value, dict):
         return {k: _filter_none(v) for k, v in value.items() if v is not None}
@@ -212,8 +429,8 @@ def _as_dict(data: typing.Any, *, convert_all: bool = True) -> dict[str, typing.
 
 def _convert_transaction_parameters(
     transaction_parameters: algokit_utils.TransactionParameters | None,
-) -> algokit_utils.CommonCallParametersDict:
-    return typing.cast(algokit_utils.CommonCallParametersDict, _as_dict(transaction_parameters))
+) -> algokit_utils.TransactionParametersDict:
+    return typing.cast(algokit_utils.TransactionParametersDict, _as_dict(transaction_parameters))
 
 
 def _convert_call_transaction_parameters(
@@ -247,6 +464,94 @@ def _convert_deploy_args(
 
 
 @dataclasses.dataclass(kw_only=True)
+class InitArgs(_ArgsBase[None]):
+    txn: TransactionWithSigner
+    asset: int
+
+    @staticmethod
+    def method() -> str:
+        return "init(pay,asset)void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class DistributeReqArgs(_ArgsBase[None]):
+    """Callable by the player to randomly choose a card to distribute in the initial phase.
+    request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`"""
+
+    request: bytes | bytearray
+
+    @staticmethod
+    def method() -> str:
+        return "distribute_req(byte[])void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class DistributeActArgs(_ArgsBase[None]):
+    sig: bytes | bytearray
+
+    @staticmethod
+    def method() -> str:
+        return "distribute_act(byte[])void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class HitReqArgs(_ArgsBase[None]):
+    """Callable by the player to randomly choose a card to draw.
+    request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`"""
+
+    request: bytes | bytearray
+
+    @staticmethod
+    def method() -> str:
+        return "hit_req(byte[])void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class HitActArgs(_ArgsBase[None]):
+    """Callable by the bank to specify what card will be drawn by the player.
+    sig: signature of appState.request by appState.bank"""
+
+    sig: bytes | bytearray
+
+    @staticmethod
+    def method() -> str:
+        return "hit_act(byte[])void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class StandReqArgs(_ArgsBase[None]):
+    """Callable by the player to randomly choose a card to let the bank draw.
+    request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`"""
+
+    request: bytes | bytearray
+
+    @staticmethod
+    def method() -> str:
+        return "stand_req(byte[])void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class StandActArgs(_ArgsBase[None]):
+    """Callable by the bank to specify what card will be drawn by the bank.
+    sig: signature of appState.request by appState.bank"""
+
+    sig: bytes | bytearray
+
+    @staticmethod
+    def method() -> str:
+        return "stand_act(byte[])void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class ForfeitArgs(_ArgsBase[None]):
+    """Callable by either the bank or the player if the other stops interacting."""
+
+    @staticmethod
+    def method() -> str:
+        return "forfeit()void"
+
+
+@dataclasses.dataclass(kw_only=True)
 class HelloArgs(_ArgsBase[str]):
     name: str
 
@@ -264,6 +569,20 @@ class CreateArgs(_ArgsBase[None]):
     @staticmethod
     def method() -> str:
         return "create(asset,account,account)void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class DeleteArgs(_ArgsBase[None]):
+    """Routes the finish, cancel and push methods
+    creator: reference to opponent's address, if existing (used to enable InnerTxn) fee_holder: reference to appState.fee_holder (used to enable InnerTxn) asset: reference to appState.asset (used to enable InnerTxn)"""
+
+    asset: int
+    other: str | bytes
+    fee_holder: str | bytes
+
+    @staticmethod
+    def method() -> str:
+        return "delete(asset,account,account)void"
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -302,13 +621,22 @@ class GlobalState:
         self.action_timer = typing.cast(int, data.get(b"action_timer"))
         self.asset = typing.cast(int, data.get(b"asset"))
         self.bank = ByteReader(typing.cast(bytes, data.get(b"bank")))
+        self.bank_cards = typing.cast(int, data.get(b"bank_cards"))
+        self.bank_max_total = typing.cast(int, data.get(b"bank_max_total"))
+        self.bank_min_total = typing.cast(int, data.get(b"bank_min_total"))
         self.cards = ByteReader(typing.cast(bytes, data.get(b"cards")))
         self.cards_left = typing.cast(int, data.get(b"cards_left"))
         self.fee_amount = typing.cast(int, data.get(b"fee_amount"))
         self.fee_holder = ByteReader(typing.cast(bytes, data.get(b"fee_holder")))
+        self.last_card = typing.cast(int, data.get(b"last_card"))
         self.nonce = typing.cast(int, data.get(b"nonce"))
+        self.player_cards = typing.cast(int, data.get(b"player_cards"))
+        self.player_max_total = typing.cast(int, data.get(b"player_max_total"))
+        self.player_min_total = typing.cast(int, data.get(b"player_min_total"))
+        self.request = ByteReader(typing.cast(bytes, data.get(b"request")))
         self.stake = typing.cast(int, data.get(b"stake"))
         self.state = typing.cast(int, data.get(b"state"))
+        self.winner = ByteReader(typing.cast(bytes, data.get(b"winner")))
 
 
 class Composer:
@@ -322,6 +650,206 @@ class Composer:
 
     def execute(self) -> AtomicTransactionResponse:
         return self.app_client.execute_atc(self.atc)
+
+    def init(
+        self,
+        *,
+        txn: TransactionWithSigner,
+        asset: int,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Adds a call to `init(pay,asset)void` ABI method
+        
+        :param TransactionWithSigner txn: The `txn` ABI parameter
+        :param int asset: The `asset` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = InitArgs(
+            txn=txn,
+            asset=asset,
+        )
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def distribute_req(
+        self,
+        *,
+        request: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Callable by the player to randomly choose a card to distribute in the initial phase.
+        request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`
+        
+        Adds a call to `distribute_req(byte[])void` ABI method
+        
+        :param bytes | bytearray request: The `request` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = DistributeReqArgs(
+            request=request,
+        )
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def distribute_act(
+        self,
+        *,
+        sig: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Adds a call to `distribute_act(byte[])void` ABI method
+        
+        :param bytes | bytearray sig: The `sig` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = DistributeActArgs(
+            sig=sig,
+        )
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def hit_req(
+        self,
+        *,
+        request: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Callable by the player to randomly choose a card to draw.
+        request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`
+        
+        Adds a call to `hit_req(byte[])void` ABI method
+        
+        :param bytes | bytearray request: The `request` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = HitReqArgs(
+            request=request,
+        )
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def hit_act(
+        self,
+        *,
+        sig: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Callable by the bank to specify what card will be drawn by the player.
+        sig: signature of appState.request by appState.bank
+        
+        Adds a call to `hit_act(byte[])void` ABI method
+        
+        :param bytes | bytearray sig: The `sig` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = HitActArgs(
+            sig=sig,
+        )
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def stand_req(
+        self,
+        *,
+        request: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Callable by the player to randomly choose a card to let the bank draw.
+        request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`
+        
+        Adds a call to `stand_req(byte[])void` ABI method
+        
+        :param bytes | bytearray request: The `request` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = StandReqArgs(
+            request=request,
+        )
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def stand_act(
+        self,
+        *,
+        sig: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Callable by the bank to specify what card will be drawn by the bank.
+        sig: signature of appState.request by appState.bank
+        
+        Adds a call to `stand_act(byte[])void` ABI method
+        
+        :param bytes | bytearray sig: The `sig` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = StandActArgs(
+            sig=sig,
+        )
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def forfeit(
+        self,
+        *,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Callable by either the bank or the player if the other stops interacting.
+        
+        Adds a call to `forfeit()void` ABI method
+        
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = ForfeitArgs()
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
 
     def hello(
         self,
@@ -373,6 +901,38 @@ class Composer:
             self.atc,
             call_abi_method=args.method(),
             transaction_parameters=_convert_create_transaction_parameters(transaction_parameters, on_complete),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def delete_delete(
+        self,
+        *,
+        asset: int,
+        other: str | bytes,
+        fee_holder: str | bytes,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Routes the finish, cancel and push methods
+        creator: reference to opponent's address, if existing (used to enable InnerTxn) fee_holder: reference to appState.fee_holder (used to enable InnerTxn) asset: reference to appState.asset (used to enable InnerTxn)
+        
+        Adds a call to `delete(asset,account,account)void` ABI method
+        
+        :param int asset: The `asset` ABI parameter
+        :param str | bytes other: The `other` ABI parameter
+        :param str | bytes fee_holder: The `fee_holder` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = DeleteArgs(
+            asset=asset,
+            other=other,
+            fee_holder=fee_holder,
+        )
+        self.app_client.compose_delete(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_transaction_parameters(transaction_parameters),
             **_as_dict(args, convert_all=True),
         )
         return self
@@ -549,6 +1109,198 @@ class BlackjackClient:
         state = typing.cast(dict[bytes, bytes | int], self.app_client.get_global_state(raw=True))
         return GlobalState(state)
 
+    def init(
+        self,
+        *,
+        txn: TransactionWithSigner,
+        asset: int,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Calls `init(pay,asset)void` ABI method
+        
+        :param TransactionWithSigner txn: The `txn` ABI parameter
+        :param int asset: The `asset` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = InitArgs(
+            txn=txn,
+            asset=asset,
+        )
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def distribute_req(
+        self,
+        *,
+        request: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Callable by the player to randomly choose a card to distribute in the initial phase.
+        request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`
+        
+        Calls `distribute_req(byte[])void` ABI method
+        
+        :param bytes | bytearray request: The `request` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = DistributeReqArgs(
+            request=request,
+        )
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def distribute_act(
+        self,
+        *,
+        sig: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Calls `distribute_act(byte[])void` ABI method
+        
+        :param bytes | bytearray sig: The `sig` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = DistributeActArgs(
+            sig=sig,
+        )
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def hit_req(
+        self,
+        *,
+        request: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Callable by the player to randomly choose a card to draw.
+        request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`
+        
+        Calls `hit_req(byte[])void` ABI method
+        
+        :param bytes | bytearray request: The `request` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = HitReqArgs(
+            request=request,
+        )
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def hit_act(
+        self,
+        *,
+        sig: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Callable by the bank to specify what card will be drawn by the player.
+        sig: signature of appState.request by appState.bank
+        
+        Calls `hit_act(byte[])void` ABI method
+        
+        :param bytes | bytearray sig: The `sig` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = HitActArgs(
+            sig=sig,
+        )
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def stand_req(
+        self,
+        *,
+        request: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Callable by the player to randomly choose a card to let the bank draw.
+        request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`
+        
+        Calls `stand_req(byte[])void` ABI method
+        
+        :param bytes | bytearray request: The `request` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = StandReqArgs(
+            request=request,
+        )
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def stand_act(
+        self,
+        *,
+        sig: bytes | bytearray,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Callable by the bank to specify what card will be drawn by the bank.
+        sig: signature of appState.request by appState.bank
+        
+        Calls `stand_act(byte[])void` ABI method
+        
+        :param bytes | bytearray sig: The `sig` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = StandActArgs(
+            sig=sig,
+        )
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def forfeit(
+        self,
+        *,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Callable by either the bank or the player if the other stops interacting.
+        
+        Calls `forfeit()void` ABI method
+        
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = ForfeitArgs()
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
     def hello(
         self,
         *,
@@ -597,6 +1349,37 @@ class BlackjackClient:
         result = self.app_client.create(
             call_abi_method=args.method(),
             transaction_parameters=_convert_create_transaction_parameters(transaction_parameters, on_complete),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def delete_delete(
+        self,
+        *,
+        asset: int,
+        other: str | bytes,
+        fee_holder: str | bytes,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Routes the finish, cancel and push methods
+        creator: reference to opponent's address, if existing (used to enable InnerTxn) fee_holder: reference to appState.fee_holder (used to enable InnerTxn) asset: reference to appState.asset (used to enable InnerTxn)
+        
+        Calls `delete(asset,account,account)void` ABI method
+        
+        :param int asset: The `asset` ABI parameter
+        :param str | bytes other: The `other` ABI parameter
+        :param str | bytes fee_holder: The `fee_holder` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = DeleteArgs(
+            asset=asset,
+            other=other,
+            fee_holder=fee_holder,
+        )
+        result = self.app_client.delete(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_transaction_parameters(transaction_parameters),
             **_as_dict(args, convert_all=True),
         )
         return result
@@ -652,7 +1435,7 @@ class BlackjackClient:
         template_values: algokit_utils.TemplateValueMapping | None = None,
         create_args: DeployCreate[CreateArgs],
         update_args: algokit_utils.DeployCallArgs | None = None,
-        delete_args: algokit_utils.DeployCallArgs | None = None,
+        delete_args: Deploy[DeleteArgs],
     ) -> algokit_utils.DeployResponse:
         """Deploy an application and update client to reference it.
         
@@ -686,7 +1469,7 @@ class BlackjackClient:
         should *NOT* include the TMPL_ prefix
         :param DeployCreate[CreateArgs] create_args: Arguments used when creating an application
         :param algokit_utils.DeployCallArgs | None update_args: Arguments used when updating an application
-        :param algokit_utils.DeployCallArgs | None delete_args: Arguments used when deleting an application
+        :param Deploy[DeleteArgs] delete_args: Arguments used when deleting an application
         :return DeployResponse: details action taken and relevant transactions
         :raises DeploymentError: If the deployment failed"""
 

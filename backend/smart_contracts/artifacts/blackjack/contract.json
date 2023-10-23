@@ -38,6 +38,128 @@
             }
         },
         {
+            "name": "init",
+            "args": [
+                {
+                    "type": "pay",
+                    "name": "txn"
+                },
+                {
+                    "type": "asset",
+                    "name": "asset"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            }
+        },
+        {
+            "name": "distribute_req",
+            "args": [
+                {
+                    "type": "byte[]",
+                    "name": "request"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            },
+            "desc": "Callable by the player to randomly choose a card to distribute in the initial phase.\nrequest: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`"
+        },
+        {
+            "name": "distribute_act",
+            "args": [
+                {
+                    "type": "byte[]",
+                    "name": "sig"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            }
+        },
+        {
+            "name": "hit_req",
+            "args": [
+                {
+                    "type": "byte[]",
+                    "name": "request"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            },
+            "desc": "Callable by the player to randomly choose a card to draw.\nrequest: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`"
+        },
+        {
+            "name": "hit_act",
+            "args": [
+                {
+                    "type": "byte[]",
+                    "name": "sig"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            },
+            "desc": "Callable by the bank to specify what card will be drawn by the player.\nsig: signature of appState.request by appState.bank"
+        },
+        {
+            "name": "stand_req",
+            "args": [
+                {
+                    "type": "byte[]",
+                    "name": "request"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            },
+            "desc": "Callable by the player to randomly choose a card to let the bank draw.\nrequest: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`"
+        },
+        {
+            "name": "stand_act",
+            "args": [
+                {
+                    "type": "byte[]",
+                    "name": "sig"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            },
+            "desc": "Callable by the bank to specify what card will be drawn by the bank.\nsig: signature of appState.request by appState.bank"
+        },
+        {
+            "name": "forfeit",
+            "args": [],
+            "returns": {
+                "type": "void"
+            },
+            "desc": "Callable by either the bank or the player if the other stops interacting."
+        },
+        {
+            "name": "delete",
+            "args": [
+                {
+                    "type": "asset",
+                    "name": "asset"
+                },
+                {
+                    "type": "account",
+                    "name": "other"
+                },
+                {
+                    "type": "account",
+                    "name": "fee_holder"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            },
+            "desc": "Routes the finish, cancel and push methods\ncreator: reference to opponent's address, if existing (used to enable InnerTxn) fee_holder: reference to appState.fee_holder (used to enable InnerTxn) asset: reference to appState.asset (used to enable InnerTxn)"
+        },
+        {
             "name": "hello",
             "args": [
                 {

@@ -196,7 +196,7 @@ def init(txn: pt.abi.PaymentTransaction, asset: pt.abi.Asset):
 
 
 # In order for the player or the bank to receive a card, it must be removed from the deck. To do this you need to provide the id of the card and which player it was drawn by.
-@beaker.pyteal.Subroutine(pt.TealType.uint64)
+@pt.Subroutine(pt.TealType.uint64)
 def pop_card(pos, pop_id):
     """
     Remove a card from the deck and returns its ID
@@ -232,7 +232,7 @@ def pop_card(pos, pop_id):
     )
 
 
-@beaker.pyteal.Subroutine(pt.TealType.uint64)
+@pt.Subroutine(pt.TealType.uint64)
 def card_value(id):
     """
     Get a card value from its ID
@@ -243,7 +243,7 @@ def card_value(id):
     )
 
 
-@beaker.pyteal.Subroutine(pt.TealType.uint64)
+@pt.Subroutine(pt.TealType.uint64)
 def sig_to_card_pos(sig: pt.abi.DynamicBytes):
     """
     Get the card position corresponding to a signature
@@ -256,7 +256,7 @@ def sig_to_card_pos(sig: pt.abi.DynamicBytes):
     )
 
 
-@beaker.pyteal.Subroutine(pt.TealType.none)
+@pt.Subroutine(pt.TealType.none)
 def give_card_to_player(pos):
     """
     Give a card to the player
@@ -285,7 +285,7 @@ def give_card_to_player(pos):
     )
 
 
-@beaker.pyteal.Subroutine(pt.TealType.none)
+@pt.Subroutine(pt.TealType.none)
 def give_card_to_bank(pos):
     """
     Give a card to the bank
@@ -323,7 +323,7 @@ def distribute_req(request: pt.abi.DynamicBytes):
             appState.state.get() == DISTRIBUTE,
             pt.Txn.sender() == pt.Global.creator_address(),
             pt.JsonRef.as_uint64(request.get(), pt.Bytes("nonce")) == appState.nonce.get(),
-            pt.JsonRef.as_uint64(request.get(), pt.Bytes("app")) == pt.Global.current_application_address(),
+            pt.JsonRef.as_uint64(request.get(), pt.Bytes("app")) == pt.Global.current_application_id(),
         ),
         appState.request.set(request.get()),
         appState.nonce.set(appState.nonce.get() + pt.Int(1)),
@@ -408,7 +408,7 @@ def hit_act(sig: pt.abi.DynamicBytes):
             pt.Ed25519Verify(appState.request.get(), sig.get(), appState.bank.get()),
         ),
         
-        appState.give_card_to_player(appState.sig_to_card_pos(sig)),
+        give_card_to_player(sig_to_card_pos(sig)),
         
         # If player busted and does not have aces worth 11 (bank wins)
         pt.If(pt.And(
@@ -477,7 +477,7 @@ def stand_act(sig: pt.abi.DynamicBytes):
             pt.Ed25519Verify(appState.request.get(), sig.get(), appState.bank.get()),
         ),
         
-        appState.give_card_to_bank(appState.sig_to_card_pos(sig)),
+        give_card_to_bank(sig_to_card_pos(sig)),
         
         # If bank busted and does not have aces worth 11 (player wins)
         pt.If(
@@ -554,7 +554,7 @@ def finish():
         )
     )
 
-@beaker.pyteal.Subroutine(pt.TealType.none)
+@pt.Subroutine(pt.TealType.none)
 def win_bank():
     return pt.Seq(
         appState.state.set(FINISH),
@@ -562,14 +562,14 @@ def win_bank():
     )
 
 
-@beaker.pyteal.Subroutine(pt.TealType.none)
+@pt.Subroutine(pt.TealType.none)
 def win_player():
     return pt.Seq(
         appState.state.set(FINISH),
         appState.winner.set(pt.Global.creator_address())
     )
 
-@beaker.pyteal.Subroutine(pt.TealType.none)
+@pt.Subroutine(pt.TealType.none)
 def push():
     return pt.Seq(
         appState.state.set(PUSH),
@@ -623,11 +623,11 @@ def delete(asset: pt.abi.Asset, other: pt.abi.Account, fee_holder: pt.abi.Accoun
                 fee_holder.address() == appState.fee_holder.get(),
             ),
             pt.If(appState.state.get() == FINISH).Then(
-                appState.finish()
+                finish()
             ).ElseIf(appState.state.get() == WAIT).Then(
-                appState.cancel()
+                cancel()
             ).ElseIf(appState.state.get() == PUSH).Then(
-                appState.give_funds_back()
+                give_funds_back()
             ).Else(
                 pt.Err()
             )
@@ -646,7 +646,7 @@ def cancel():
         give_funds_caller(pt.Int(0)),
     )
 
-def finish(self):
+def finish():
     """
     Callable by the winner to get all the funds
     """
@@ -655,7 +655,7 @@ def finish(self):
             appState.winner.get() == pt.Txn.sender()
         ),
         
-        pt.If(self.winner.get() == self.bank.get()).Then(
+        pt.If(appState.winner.get() == appState.bank.get()).Then(
             give_funds_caller(pt.Int(0))
         ).Else(
             give_funds_caller(pt.Int(1))
@@ -663,7 +663,7 @@ def finish(self):
     )
 
 
-@beaker.pyteal.Subroutine(pt.TealType.none)
+@pt.Subroutine(pt.TealType.none)
 def give_funds_back():
     """
     Give the funds back to the bank and the player
@@ -691,7 +691,7 @@ def give_funds_back():
     )
 
 
-@beaker.pyteal.Subroutine(pt.TealType.none)
+@pt.Subroutine(pt.TealType.none)
 def give_funds_caller(pay_fee):
     """
     Give all the funds to the caller 
