@@ -93,7 +93,24 @@ class AppState:
     player_max_total = beaker.GlobalStateValue(
         stack_type=pt.TealType.uint64,
     )
-
+    request = beaker.GlobalStateValue(
+        stack_type=pt.TealType.bytes,
+    )
+    action_timer = beaker.GlobalStateValue(
+        stack_type=pt.TealType.uint64,
+    )
+    bank_cards = beaker.GlobalStateValue(
+        stack_type=pt.TealType.uint64,
+    )
+    bank_min_total = beaker.GlobalStateValue(
+        stack_type=pt.TealType.uint64,
+    )
+    bank_max_total = beaker.GlobalStateValue(
+        stack_type=pt.TealType.uint64,
+    )
+    winner = beaker.GlobalStateValue(
+        stack_type=pt.TealType.bytes,
+    )
 
 appState = AppState()
 app = beaker.Application("blackjack", state=appState)
@@ -265,6 +282,443 @@ def give_card_to_player(pos):
             appState.player_min_total.get() + mint_value.load()),
         appState.player_max_total.set(
             appState.player_max_total.get() + max_value.load()),
+    )
+
+
+@beaker.pyteal.Subroutine(pt.TealType.none)
+def give_card_to_bank(pos):
+    """
+    Give a card to the bank
+    pos: index of the card to be popped in the remaining card array
+    """
+    card = pt.ScratchVar(pt.TealType.uint64)
+    min_value = pt.ScratchVar(pt.TealType.uint64)
+    max_value = pt.ScratchVar(pt.TealType.uint64)
+    return pt.Seq(
+            card.store(pop_card(pos, pt.Int(2))),
+            appState.bank_cards.set(appState.bank_cards.get() + pt.Int(1)),
+            min_value.store(card_value(card.load())),
+            max_value.store(
+                pt.If(
+                    min_value.load() == pt.Int(1)
+                ).Then(
+                    pt.Int(11)
+                ).Else(
+                    min_value.load()
+                )
+            ),
+            appState.bank_min_total.set(appState.bank_min_total.get() + min_value.load()),
+            appState.bank_max_total.set(appState.bank_max_total.get() + max_value.load()),
+        )
+
+
+@app.external
+def distribute_req(request: pt.abi.DynamicBytes):
+    """
+    Callable by the player to randomly choose a card to distribute in the initial phase.
+    request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`
+    """
+    return pt.Seq(
+        pt.Assert(
+            appState.state.get() == DISTRIBUTE,
+            pt.Txn.sender() == pt.Global.creator_address(),
+            pt.JsonRef.as_uint64(request.get(), pt.Bytes("nonce")) == appState.nonce.get(),
+            pt.JsonRef.as_uint64(request.get(), pt.Bytes("app")) == pt.Global.current_application_address(),
+        ),
+        appState.request.set(request.get()),
+        appState.nonce.set(appState.nonce.get() + pt.Int(1)),
+        appState.state.set(DISTRIBUTE_ACT),
+        appState.action_timer.set(pt.Global.round()),
+    )
+
+
+@app.external
+def distribute_act(sig: pt.abi.DynamicBytes):
+    return pt.Seq(
+        pt.OpUp(pt.OpUpMode.OnCall).maximize_budget(pt.Int(5000)),
+        pt.Assert(
+            appState.state.get() == DISTRIBUTE_ACT,
+            pt.Ed25519Verify(
+                appState.request.get(),
+                sig.get(),
+                appState.bank.get(),
+            )
+        ),
+        pt.If(appState.player_cards.get() < pt.Int(2)).Then(
+            give_card_to_player(sig_to_card_pos(sig)),
+        ).Else (
+            give_card_to_bank(sig_to_card_pos(sig)),
+        ),
+        # If distribution finished and player has blackjack (player cannot hit)
+        pt.If(
+            pt.And(
+                appState.bank_cards.get() == pt.Int(1),
+                appState.player_max_total.get() == pt.Int(21),
+            )
+        ).Then(
+            appState.state.set(BANK)
+        ).ElseIf(
+            # If distribution finished and player does not have (player can hit)
+            pt.And(
+                appState.bank_cards.get() == pt.Int(1),
+                appState.player_max_total.get() != pt.Int(21),
+            )
+        ).Then(
+            appState.state.set(PLAYER)
+        ).Else(
+            appState.state.set(DISTRIBUTE),
+        ),
+        appState.action_timer.set(pt.Global.round()),
+    )
+
+
+@app.external
+def hit_req(request: pt.abi.DynamicBytes):
+    """
+    Callable by the player to randomly choose a card to draw.
+    request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`
+    """
+    return pt.Seq(
+        pt.Assert(
+            appState.state.get() == PLAYER,
+            
+            pt.Txn.sender() == pt.Global.creator_address(),
+            pt.JsonRef.as_uint64(request.get(), pt.Bytes("nonce")) == appState.nonce.get(),
+            pt.JsonRef.as_uint64(request.get(), pt.Bytes("app")) == pt.Global.current_application_id(),
+        ),
+        
+        appState.request.set(request.get()),
+        appState.nonce.set(appState.nonce.get() + pt.Int(1)),
+
+        appState.state.set(HIT_ACT),
+        appState.action_timer.set(pt.Global.round()),
+    )
+
+
+@app.external
+def hit_act(sig: pt.abi.DynamicBytes):
+    """
+    Callable by the bank to specify what card will be drawn by the player.
+    sig: signature of appState.request by appState.bank
+    """
+    return pt.Seq(
+        pt.OpUp(pt.OpUpMode.OnCall).maximize_budget(pt.Int(5000)),
+        pt.Assert(
+            appState.state.get() == HIT_ACT,
+            pt.Ed25519Verify(appState.request.get(), sig.get(), appState.bank.get()),
+        ),
+        
+        appState.give_card_to_player(appState.sig_to_card_pos(sig)),
+        
+        # If player busted and does not have aces worth 11 (bank wins)
+        pt.If(pt.And(
+            appState.player_max_total.get() > pt.Int(21), 
+            appState.player_max_total.get() == appState.player_min_total.get())
+        ).Then(
+            appState.state.set(FINISH),
+            appState.winner.set(appState.bank.get()),
+        # If player busted BUT has at least one ace worth 11 (make ace worth one)
+        ).ElseIf(
+            pt.And(
+                appState.player_max_total.get() > pt.Int(21), 
+                appState.player_max_total.get() != appState.player_min_total.get())
+        ).Then(
+            appState.state.set(PLAYER),
+            appState.player_max_total.set(appState.player_max_total.get() - pt.Int(10)),
+        # If a player reached 21 (cannot hit again)
+        ).ElseIf(
+            appState.player_max_total.get() == pt.Int(21)
+        ).Then(
+            appState.state.set(BANK),
+        # If a player is below 21 (can hit again)
+        ).Else(
+            appState.state.set(PLAYER),
+        ),
+        appState.action_timer.set(pt.Global.round()),
+    )
+
+
+@app.external
+def stand_req(request: pt.abi.DynamicBytes):
+    """
+    Callable by the player to randomly choose a card to let the bank draw.
+    request: JSON containing a (`nonce` = appState.nonce), a (`app` = Global.current_application_id()) and a random `nonce_p`
+    """
+    return pt.Seq(
+        pt.Assert(
+            pt.Or(
+                appState.state.get() == PLAYER,
+                appState.state.get() == BANK,
+            ),
+            
+            pt.Txn.sender() == pt.Global.creator_address(),
+            pt.JsonRef.as_uint64(request.get(), pt.Bytes("nonce")) == appState.nonce.get(),
+            pt.JsonRef.as_uint64(request.get(), pt.Bytes("app")) == pt.Global.current_application_id(),
+        ),
+        
+        appState.request.set(request.get()),
+        appState.nonce.set(appState.nonce.get() + pt.Int(1)),
+        
+        appState.state.set(STAND_ACT),
+        appState.action_timer.set(pt.Global.round()),
+    )
+
+
+@app.external
+def stand_act(sig: pt.abi.DynamicBytes):
+    """
+    Callable by the bank to specify what card will be drawn by the bank.
+    sig: signature of appState.request by appState.bank
+    """
+    return pt.Seq(
+        pt.OpUp(pt.OpUpMode.OnCall).maximize_budget(pt.Int(5000)),
+        pt.Assert(
+            appState.state.get() == STAND_ACT,
+            pt.Ed25519Verify(appState.request.get(), sig.get(), appState.bank.get()),
+        ),
+        
+        appState.give_card_to_bank(appState.sig_to_card_pos(sig)),
+        
+        # If bank busted and does not have aces worth 11 (player wins)
+        pt.If(
+            pt.And(
+                appState.bank_max_total.get() > pt.Int(21), 
+                appState.bank_max_total.get() == appState.bank_min_total.get())
+            ).Then(
+                pt.Seq(
+                    appState.state.set(FINISH),
+                    appState.winner.set(pt.Global.creator_address()
+                ),
+        # If bank busted BUT has at least one ace worth 11 (make ace worth one)
+        )).ElseIf(
+            pt.And(
+                appState.bank_max_total.get() > pt.Int(21), 
+                appState.bank_max_total.get() != appState.bank_min_total.get())
+            ).Then(
+                appState.state.set(BANK),
+                appState.bank_max_total.set(appState.bank_max_total.get() - pt.Int(10))
+        # If bank reached a hand worth at least 17 (game is over)
+        ).ElseIf(appState.bank_max_total.get() >= pt.Int(17)).Then(
+            # If bank's total is higher than player (bank wins)
+            pt.If(appState.bank_max_total.get() > appState.player_max_total.get()).Then(
+                win_bank(),
+            # If bank's total is higher than player (player wins)
+            ).ElseIf(appState.bank_max_total.get() < appState.player_max_total.get()).Then(
+                win_player(),
+            # If bank's total is the same as player
+            ).Else(
+                # If player has black jack (player wins)
+                pt.If(
+                    pt.And(
+                        appState.player_max_total.get() == pt.Int(21), 
+                        appState.player_cards.get() == pt.Int(2), 
+                        appState.bank_cards.get() != pt.Int(2)
+                    )
+                ).Then(
+                    win_player(),
+                # If bank has black jack (bank wins)
+                ).ElseIf(
+                    pt.And(
+                        appState.player_max_total.get() == pt.Int(21), 
+                        appState.player_cards.get() != pt.Int(2), 
+                        appState.bank_cards.get() == pt.Int(2)
+                    )
+                ).Then(
+                    win_bank(),
+                # If neither has black jack (push/draw)
+                ).Else(
+                    push(),
+                )
+            )
+        # If bank has not reached 17 yet (continue drawing cards)
+        ).Else(
+            appState.state.set(BANK),
+        ),
+        
+        appState.action_timer.set(pt.Global.round()),
+    )
+
+def finish():
+    """
+    Callable by the winner to get all the funds
+    """
+    return pt.Seq(
+        pt.Assert(
+            appState.winner.get() == pt.Txn.sender()
+        ),
+        
+        pt.If(appState.winner.get() == appState.bank.get()).Then(
+            give_funds_caller(pt.Int(0))
+        ).Else(
+            give_funds_caller(pt.Int(1))
+        )
+    )
+
+@beaker.pyteal.Subroutine(pt.TealType.none)
+def win_bank():
+    return pt.Seq(
+        appState.state.set(FINISH),
+        appState.winner.set(appState.bank.get())
+    )
+
+
+@beaker.pyteal.Subroutine(pt.TealType.none)
+def win_player():
+    return pt.Seq(
+        appState.state.set(FINISH),
+        appState.winner.set(pt.Global.creator_address())
+    )
+
+@beaker.pyteal.Subroutine(pt.TealType.none)
+def push():
+    return pt.Seq(
+        appState.state.set(PUSH),
+    )
+
+@app.external
+def forfeit():
+    """
+    Callable by either the bank or the player if the other stops interacting.
+    """
+    return pt.Seq(
+        pt.Assert(pt.Or(
+            pt.And(
+                pt.Or(
+                    appState.state.get() == PLAYER,
+                    appState.state.get() == BANK,
+                ), 
+                pt.Txn.sender() == appState.bank.get(),
+            ),
+            pt.And(
+                pt.Or(
+                    appState.state.get() == HIT_ACT,
+                    appState.state.get() == STAND_ACT,
+                ),
+                pt.Txn.sender() == pt.Global.creator_address(),
+            ),
+            appState.action_timer.get() + TIMEOUT <= pt.Global.round(),
+        )),
+        appState.state.set(FINISH),
+        appState.winner.set(pt.Txn.sender())
+    )
+
+@app.delete
+def delete(asset: pt.abi.Asset, other: pt.abi.Account, fee_holder: pt.abi.Account):
+        """
+        Routes the finish, cancel and push methods
+        creator: reference to opponent's address, if existing (used to enable InnerTxn)
+        fee_holder: reference to appState.fee_holder (used to enable InnerTxn)
+        asset: reference to appState.asset (used to enable InnerTxn)
+        """
+        return pt.Seq(
+            pt.Assert(
+                asset.asset_id() == appState.asset.get(),
+                pt.If(
+                    pt.Txn.sender() == pt.Global.creator_address()
+                ).Then(
+                    other.address() == appState.bank.get()
+                ).Else(
+                    other.address() == pt.Global.creator_address()
+                ),
+                fee_holder.address() == appState.fee_holder.get(),
+            ),
+            pt.If(appState.state.get() == FINISH).Then(
+                appState.finish()
+            ).ElseIf(appState.state.get() == WAIT).Then(
+                appState.cancel()
+            ).ElseIf(appState.state.get() == PUSH).Then(
+                appState.give_funds_back()
+            ).Else(
+                pt.Err()
+            )
+        )
+
+
+def cancel():
+    """
+    Callable by the creator if the bank failed to join, to cancel the game
+    """
+    return pt.Seq(
+        pt.Assert(
+            pt.Txn.sender() == pt.Global.creator_address(),
+            appState.state.get() == WAIT,
+        ),
+        give_funds_caller(pt.Int(0)),
+    )
+
+def finish(self):
+    """
+    Callable by the winner to get all the funds
+    """
+    return pt.Seq(
+        pt.Assert(
+            appState.winner.get() == pt.Txn.sender()
+        ),
+        
+        pt.If(self.winner.get() == self.bank.get()).Then(
+            give_funds_caller(pt.Int(0))
+        ).Else(
+            give_funds_caller(pt.Int(1))
+        )
+    )
+
+
+@beaker.pyteal.Subroutine(pt.TealType.none)
+def give_funds_back():
+    """
+    Give the funds back to the bank and the player
+    """
+    return pt.Seq(
+        pt.InnerTxnBuilder.Begin(),
+        pt.InnerTxnBuilder.SetFields({
+            pt.TxnField.type_enum: pt.TxnType.AssetTransfer,
+            pt.TxnField.xfer_asset: appState.asset.get(),
+            pt.TxnField.asset_amount: appState.stake.get(),
+            pt.TxnField.asset_receiver: pt.Global.creator_address(),
+        }),
+        pt.InnerTxnBuilder.Next(),
+        pt.InnerTxnBuilder.SetFields({
+            pt.TxnField.type_enum: pt.TxnType.AssetTransfer,
+            pt.TxnField.xfer_asset: appState.asset.get(),
+            pt.TxnField.asset_close_to: appState.bank.get(),
+        }),
+        pt.InnerTxnBuilder.Next(),
+        pt.InnerTxnBuilder.SetFields({
+            pt.TxnField.type_enum: pt.TxnType.Payment,
+            pt.TxnField.close_remainder_to: pt.Global.creator_address(),
+        }),
+        pt.InnerTxnBuilder.Submit(),
+    )
+
+
+@beaker.pyteal.Subroutine(pt.TealType.none)
+def give_funds_caller(pay_fee):
+    """
+    Give all the funds to the caller 
+    pay_fee: specifies if a part of the funds will be paid as fee
+    """
+    return pt.Seq(
+        pt.InnerTxnBuilder.Begin(),
+        pt.If(pay_fee).Then(pt.Seq(
+            pt.InnerTxnBuilder.SetFields({
+                pt.TxnField.type_enum: pt.TxnType.AssetTransfer,
+                pt.TxnField.xfer_asset: appState.asset.get(),
+                pt.TxnField.asset_amount: appState.stake.get() / appState.fee_amount.get(),
+                pt.TxnField.asset_receiver: appState.fee_holder.get(),
+            }),
+            pt.InnerTxnBuilder.Next(),
+        )),
+        pt.InnerTxnBuilder.SetFields({
+            pt.TxnField.type_enum: pt.TxnType.AssetTransfer,
+            pt.TxnField.xfer_asset: appState.asset.get(),
+            pt.TxnField.asset_close_to: pt.Txn.sender(),
+        }),
+        pt.InnerTxnBuilder.Next(),
+        pt.InnerTxnBuilder.SetFields({
+            pt.TxnField.type_enum: pt.TxnType.Payment,
+            pt.TxnField.close_remainder_to: pt.Global.creator_address(),
+        }),
+        pt.InnerTxnBuilder.Submit(),
     )
 
 
